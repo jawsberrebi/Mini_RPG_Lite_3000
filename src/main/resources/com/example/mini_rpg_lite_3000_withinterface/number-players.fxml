@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mini_rpg_lite_3000_withinterface.HelloController">
+   <children>
+      <VBox prefHeight="200.0" prefWidth="100.0" />
+      <Label layoutX="175.0" layoutY="54.0" text="Mini RPG Lite 3000" textAlignment="CENTER" textFill="RED">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Label layoutX="163.0" layoutY="100.0" text="Combien voulez-vous de joueurs ?" textAlignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Spinner fx:id="spinner" editable="true" layoutX="225.0" layoutY="200.0" max="100" min="0" onInputMethodTextChanged="#handleSpinner" />
+      <Button layoutX="284.0" layoutY="253.0" mnemonicParsing="false" text="Ok" />
+   </children>
+</AnchorPane>
