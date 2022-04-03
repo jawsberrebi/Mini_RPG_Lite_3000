@@ -17,7 +17,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Spinner fx:id="spinner" editable="true" layoutX="225.0" layoutY="200.0" max="100" min="0" onInputMethodTextChanged="#handleSpinner" />
-      <Button layoutX="284.0" layoutY="253.0" mnemonicParsing="false" text="Ok" />
+      <Spinner fx:id="spinner" editable="true" layoutX="225.0" layoutY="200.0" />
+      <Button fx:id="btnNumberPlayers" layoutX="284.0" layoutY="253.0" mnemonicParsing="false" onAction="#handleBtnNumberPlayers" text="Ok" />
    </children>
 </AnchorPane>

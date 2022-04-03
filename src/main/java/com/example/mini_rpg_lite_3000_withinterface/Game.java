@@ -1,5 +1,4 @@
 package com.example.mini_rpg_lite_3000_withinterface;
-import com.example.mini_rpg_lite_3000_withinterface.utils.InputParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +6,8 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Game {
+
+    public static Game context;
 
     private List<Hero> heroes = new ArrayList<Hero>();
     private List<Enemy> enemies = new ArrayList<Enemy>();
@@ -16,30 +17,22 @@ public class Game {
     private int lifePointBoss;
     private int combatNumber;
 
-    public void allRight(){
-        this.lifePointBasicEnemy = 5;
-        this.lifePointBoss = 50;
-        this.combatNumber = 0;
-        generateCombat();
-    }
+    public static void playGame(){
 
-    public void playGame(){
-        this.lifePointBasicEnemy = 5;
-        this.lifePointBoss = 50;
-        this.combatNumber = 0;
+        if (Game.context != null){
+            throw new RuntimeException("Merci de ne pas ouvrir plusieurs fois le jeu");
+        }
 
-        System.out.println("Mini RPG Lite 3000");
-        System.out.println("Nouvelle partie");
+        Game.context = new Game();
+
+        Game.context.lifePointBasicEnemy = 5;
+        Game.context.lifePointBoss = 50;
+        Game.context.combatNumber = 0;
 
         //Creation d'une nouvelle equipe et affichage des données sur chaque personnage
-        createHeroGroup();
-        displayTeam();
-
-        System.out.println("");
-        System.out.println("");
-
-
-
+        //Game.context.createHeroGroup();
+        Game.context.displayTeam();
+        /*
         while (!this.heroes.isEmpty()){
 
             //Generation d'un nouveau combat
@@ -226,6 +219,8 @@ public class Game {
 
         }
 
+         */
+
     }
 
     public void generateCombat(){
@@ -248,33 +243,39 @@ public class Game {
         this.lifePointBasicEnemy++;
     }
 
-    private void createHeroGroup(){
-        Scanner scanner = new Scanner(System.in);
-        int heroesNumber = this.InputParser.questionInt("Creation d'une nouvelle equipe, combient voulez-vous de heros ?");
+    private void createHeroGroup(int heroesNumber){
+        //Scanner scanner = new Scanner(System.in);
+        //int heroesNumber = this.InputParser.questionInt("Creation d'une nouvelle equipe, combient voulez-vous de heros ?");
         String heroType = "";
         for (int i = 0; i < heroesNumber; i++){
             do {
-                heroType = this.InputParser.questionString("Quel est le type du hero du hero numero " + i + " ?");
-                System.out.println(heroType);
-                if (heroType.equals("Hunter")){
-                    heroes.add(i, new Hunter());
-                    System.out.println("Hunter selectionne");
-                    System.out.println("");
-                }else if(heroType.equals("Healer")){
-                    heroes.add(i, new Healer());
-                    System.out.println("Healer selectionne");
-                    System.out.println("");
-                }else if (heroType.equals("Mage")){
-                    heroes.add(i, new Mage());
-                    System.out.println("Mage selectionne");
-                    System.out.println("");
-                }else if(heroType.equals("Warrior")){
-                    heroes.add(i, new Warrior());
-                    System.out.println("Warrior selectionne");
-                    System.out.println("");
-                }else{
-                    System.out.println("Vous n'avez pas entre un nom valide de type. Ressayez");
-                    System.out.println("");
+                //heroType = this.InputParser.questionString("Quel est le type du hero du hero numero " + i + " ?");
+                //System.out.println(heroType);
+                switch (heroType) {
+                    case "Hunter" -> {
+                        Game.context.heroes.add(i, new Hunter());
+                        //System.out.println("Hunter selectionne");
+                        //System.out.println("");
+                    }
+                    case "Healer" -> {
+                        heroes.add(i, new Healer());
+                        System.out.println("Healer selectionne");
+                        System.out.println("");
+                    }
+                    case "Mage" -> {
+                        heroes.add(i, new Mage());
+                        System.out.println("Mage selectionne");
+                        System.out.println("");
+                    }
+                    case "Warrior" -> {
+                        heroes.add(i, new Warrior());
+                        System.out.println("Warrior selectionne");
+                        System.out.println("");
+                    }
+                    default -> {
+                        System.out.println("Vous n'avez pas entre un nom valide de type. Ressayez");
+                        System.out.println("");
+                    }
                 }
             }while ((!"Hunter".equals(heroType)) && (!"Healer".equals(heroType)) && (!"Mage".equals(heroType)) && (!"Warrior".equals(heroType)));
         }
