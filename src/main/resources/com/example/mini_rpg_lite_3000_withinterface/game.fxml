@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mini_rpg_lite_3000_withinterface.GameController">
+   <children>
+      <Button fx:id="gameBtn" layoutX="175.0" layoutY="349.0" mnemonicParsing="false" onAction="#updateBtn" prefHeight="26.0" prefWidth="250.0" text="Nouveau combat" />
+      <Label layoutX="191.0" layoutY="21.0" text="Combat N°" textAlignment="CENTER">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Label fx:id="combatNumberString" layoutX="338.0" layoutY="21.0" text="Label" textAlignment="CENTER">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Label fx:id="currentHero" layoutX="81.0" layoutY="89.0" text="Label" textFill="#001eff">
+         <font>
+            <Font size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="currentEnemy" layoutX="425.0" layoutY="89.0" text="Label" textFill="#ff0404">
+         <font>
+            <Font size="40.0" />
+         </font>
+      </Label>
+      <Label layoutX="281.0" layoutY="95.0" text="Vs." textAlignment="CENTER">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Button fx:id="attackBtn" layoutX="213.0" layoutY="233.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="170.0" text="Attaquer" />
+      <Button fx:id="defendBtn" layoutX="213.0" layoutY="269.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="170.0" text="Se défendre" />
+      <Button fx:id="useConsumable" layoutX="213.0" layoutY="304.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="170.0" text="Utiliser un consommable" />
+      <Label fx:id="whatToDo" layoutX="262.0" layoutY="189.0" text="Que faire ?">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

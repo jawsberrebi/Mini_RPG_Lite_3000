@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -13,6 +14,24 @@ public class HelloApplication extends Application {
     private static Scene scene;
     public static Stage stage;
     private Game game;
+    private static int numberOfHeroes;
+    private static ListView<String> selectedHeroes = new ListView<>();
+
+    public static void setNumberOfHeroes(int numberOfHeroes) {
+        HelloApplication.numberOfHeroes = numberOfHeroes;
+    }
+
+    public static void setSelectedHeroes(ListView<String> selectedHeroes) {
+        HelloApplication.selectedHeroes = selectedHeroes;
+    }
+
+    public static int getNumberOfHeroes() {
+        return numberOfHeroes;
+    }
+
+    public static ListView<String> getSelectedHeroes() {
+        return selectedHeroes;
+    }
 
     @Override
     public void start(Stage stage) throws IOException {

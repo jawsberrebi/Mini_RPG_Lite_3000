@@ -1,5 +1,7 @@
 package com.example.mini_rpg_lite_3000_withinterface;
 
+import javafx.scene.control.ListView;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -8,15 +10,40 @@ import java.util.Scanner;
 public class Game {
 
     public static Game context;
-
-    private List<Hero> heroes = new ArrayList<Hero>();
+    private static List<Hero> heroes = new ArrayList<Hero>();
     private List<Enemy> enemies = new ArrayList<Enemy>();
     private int playerTurn;
     public com.example.mini_rpg_lite_3000_withinterface.utils.InputParser InputParser;
     private int lifePointBasicEnemy;
     private int lifePointBoss;
-    private int combatNumber;
+    private static int combatNumber;
+    protected static int currentPositionHero;
+    protected static int currentPositionEnemy;
 
+    //Getters/Setters
+    public static int getCombatNumber() {
+        return combatNumber;
+    }
+
+    public static List<Hero> getHeroes() {
+        return heroes;
+    }
+
+    public List<Enemy> getEnemies() {
+        return enemies;
+    }
+
+    //Enumération
+    public static enum Status{
+        START_COMBAT,
+        HERO_TURN,
+        ENEMY_TURN,
+        END_GAME
+    }
+    public static Status status;
+
+
+    //Méthodes
     public static void playGame(){
 
         if (Game.context != null){
@@ -24,37 +51,45 @@ public class Game {
         }
 
         Game.context = new Game();
-
         Game.context.lifePointBasicEnemy = 5;
         Game.context.lifePointBoss = 50;
         Game.context.combatNumber = 0;
 
+        Game.context.generateCombat();
+
+        Game.context.status = Status.START_COMBAT;
+        //Game.context.combatNumber++;
+
         //Creation d'une nouvelle equipe et affichage des données sur chaque personnage
         //Game.context.createHeroGroup();
-        Game.context.displayTeam();
+        //Game.context.displayTeam();
         /*
-        while (!this.heroes.isEmpty()){
+        while (!Game.context.heroes.isEmpty()){
 
             //Generation d'un nouveau combat
-            generateCombat();
-            this.combatNumber++;
-            System.out.println("Combat numero " + this.combatNumber);
-            System.out.println("");
-            System.out.println("Equipe " + this.combatNumber + " d'ennemis");
-            System.out.println("");
-            displayEnemy();
-            System.out.println("");
+            //generateCombat();
+            //System.out.println("Combat numero " + this.combatNumber);
+            //System.out.println("");
+            //System.out.println("Equipe " + this.combatNumber + " d'ennemis");
+            //System.out.println("");
+            //displayEnemy();
+            //System.out.println("");
 
             //Combat
             Random random = new Random();
 
-            while (!this.enemies.isEmpty()){ //Tant qu'il reste encore des ennemis
-                for (int i = 0; i < this.enemies.size(); i++){
-                    while (!this.heroes.isEmpty()){
-                        int positionJoueur = random.nextInt(this.heroes.size());
-                        int positionEnnemi = random.nextInt(this.enemies.size());
-                        System.out.println(positionEnnemi);
-                        System.out.println("Ennemi numero " + (positionEnnemi + 1) + " se tient devant vous.");
+            while (!Game.context.enemies.isEmpty()){ //Tant qu'il reste encore des ennemis
+                for (int i = 0; i < Game.context.enemies.size(); i++){
+                    while (!Game.context.heroes.isEmpty()){
+                        Game.context.status = Status.START_COMBAT;
+                        int positionJoueur = random.nextInt(Game.context.heroes.size());
+                        int positionEnnemi = random.nextInt(Game.context.enemies.size());
+                        Game.context.currentPositionHero = random.nextInt(Game.context.heroes.size());
+                        Game.context.currentPositionEnemy = random.nextInt(Game.context.enemies.size());
+
+                        //System.out.println(positionEnnemi);
+                        //System.out.println("Ennemi numero " + (positionEnnemi + 1) + " se tient devant vous.");
+                        /*
                         System.out.print("Votre ");
                         if (this.heroes.get(positionJoueur) instanceof Hunter){
                             System.out.print("Hunter ");
@@ -67,10 +102,13 @@ public class Game {
                         }
 
                         System.out.println("se tient pret.");
+                         */
 
                         //Actions du joueur
-                        int userChoice = choice();
 
+                        //int userChoice = choice();
+                        int userChoice = 0;
+                        /*
                         switch (userChoice){
                             // Cas de l'attaque
                             case 1:
@@ -123,66 +161,69 @@ public class Game {
                             //Cas de l'utilisation d'un consommable
                             case 3:
                                 System.out.println("Informations sur le personnage :");
-                                this.heroes.get(positionJoueur).displayData();
+                                Game.context.heroes.get(positionJoueur).displayData();
 
-                                int resultChoice = choiceConsumable(this.heroes.get(positionJoueur));
-
+                                //int resultChoice = choiceConsumable(this.heroes.get(positionJoueur));
+                                int resultChoice = 5;
                                 //Cas de l'utilisation d'un lembda
                                 if (resultChoice == 1){
-                                    if (this.heroes.get(positionJoueur).lembdas.isEmpty()){
+                                    if (Game.context.heroes.get(positionJoueur).lembdas.isEmpty()){
                                         System.out.println("Votre personnage n'a plus de lembdas !");
                                     }else {
                                         System.out.println("Le personnage dispose des lembdas suivants : ");
-                                        for (int w = 0; w < this.heroes.get(positionJoueur).lembdas.size(); w++){
+                                        for (int w = 0; w < Game.context.heroes.get(positionJoueur).lembdas.size(); w++){
                                             System.out.print(w + ". ");
-                                            this.heroes.get(positionJoueur).lembdas.get(w).display();
+                                            Game.context.heroes.get(positionJoueur).lembdas.get(w).display();
                                         }
 
                                         System.out.println("Entrez le chiffre correspondant a l'action");
                                         int resultChoiceLambda;
 
                                         do {
-                                            resultChoiceLambda = this.InputParser.questionInt("Quel lembda souhaitez-vous consommer ?");
-                                            if ((resultChoiceLambda < 0) && (resultChoiceLambda > this.heroes.get(positionJoueur).lembdas.size() - 1)){
+                                            resultChoiceLambda = Game.context.InputParser.questionInt("Quel lembda souhaitez-vous consommer ?");
+                                            if ((resultChoiceLambda < 0) && (resultChoiceLambda > Game.context.heroes.get(positionJoueur).lembdas.size() - 1)){
                                                 System.out.println("Entree non valide. Entrez le chiffre correspondant a l'action");
                                             }
-                                        }while ((resultChoiceLambda < 0) && (resultChoiceLambda > this.heroes.get(positionJoueur).lembdas.size() - 1));
+                                        }while ((resultChoiceLambda < 0) && (resultChoiceLambda > Game.context.heroes.get(positionJoueur).lembdas.size() - 1));
 
-                                        this.heroes.get(positionJoueur).useConsumable(this.heroes.get(positionJoueur).lembdas.get(resultChoiceLambda));
-                                        this.heroes.get(positionJoueur).lembdas.remove(resultChoiceLambda);
+                                        Game.context.heroes.get(positionJoueur).useConsumable(Game.context.heroes.get(positionJoueur).lembdas.get(resultChoiceLambda));
+                                        Game.context.heroes.get(positionJoueur).lembdas.remove(resultChoiceLambda);
                                         System.out.println("Ce héros a consommé un lembda");
-                                        this.heroes.get(positionJoueur).displayData();
+                                        Game.context.heroes.get(positionJoueur).displayData();
                                     }
 
                                 }else if(resultChoice == 2){
-                                    if (this.heroes.get(positionJoueur).potions.isEmpty()){
+                                    if (Game.context.heroes.get(positionJoueur).potions.isEmpty()){
                                         System.out.println("Votre personnage n'a plus de potions !");
                                     }else {
                                         System.out.println("Le personnage dispose des potions suivantes : ");
-                                        for (int w = 0; w < this.heroes.get(positionJoueur).potions.size(); w++){
+                                        for (int w = 0; w < Game.context.heroes.get(positionJoueur).potions.size(); w++){
                                             System.out.print(w + ". ");
-                                            this.heroes.get(positionJoueur).potions.get(w).display();
+                                            Game.context.heroes.get(positionJoueur).potions.get(w).display();
                                         }
 
                                         System.out.println("Entrez le chiffre correspondant a l'action");
                                         int resultChoicePotion;
 
                                         do {
-                                            resultChoicePotion = this.InputParser.questionInt("Quelle potion souhaitez-vous consommer ?");
-                                            if ((resultChoicePotion < 0) && (resultChoicePotion > this.heroes.get(positionJoueur).potions.size() - 1)){
+                                            resultChoicePotion = Game.context.InputParser.questionInt("Quelle potion souhaitez-vous consommer ?");
+                                            if ((resultChoicePotion < 0) && (resultChoicePotion > Game.context.heroes.get(positionJoueur).potions.size() - 1)){
                                                 System.out.println("Entree non valide. Entrez le chiffre correspondant a l'action");
                                             }
-                                        }while ((resultChoicePotion < 0) && (resultChoicePotion > this.heroes.get(positionJoueur).potions.size() - 1));
+                                        }while ((resultChoicePotion < 0) && (resultChoicePotion > Game.context.heroes.get(positionJoueur).potions.size() - 1));
 
-                                        this.heroes.get(positionJoueur).useConsumable(this.heroes.get(positionJoueur).potions.get(resultChoicePotion));
-                                        this.heroes.get(positionJoueur).potions.remove(resultChoicePotion);
+                                        Game.context.heroes.get(positionJoueur).useConsumable(Game.context.heroes.get(positionJoueur).potions.get(resultChoicePotion));
+                                        Game.context.heroes.get(positionJoueur).potions.remove(resultChoicePotion);
                                         System.out.println("Ce héros a consommé une potion");
-                                        this.heroes.get(positionJoueur).displayData();
+                                        Game.context.heroes.get(positionJoueur).displayData();
                                     }
                                 }
                                 break;
                         }
 
+
+                         */
+                        /*
                         if (!this.enemies.get(positionEnnemi).isDead()){
                             //Attaque de l'ennemi
                             System.out.println("L'ennemi attaque !");
@@ -199,6 +240,7 @@ public class Game {
                         if (this.enemies.isEmpty()){
                             break;
                         }
+
                     }
 
                     break;
@@ -208,6 +250,7 @@ public class Game {
                 System.out.println("Votre equipe est morte...");
                 break;
             }
+            /*
             if (this.enemies.isEmpty()){
                 //Si tous les ennemis sont morts, les personnages ont gagné le combat
                 System.out.println("Vous avez gagné le combat " + this.combatNumber + " !");
@@ -217,13 +260,16 @@ public class Game {
             }
             break;
 
-        }
 
-         */
+
+
+        }
+        */
 
     }
 
     public void generateCombat(){
+        System.out.println("Entered");
         Random random = new Random();
         int chanceOfBoss = random.nextInt(4 + 1) + 1;
 
@@ -243,11 +289,44 @@ public class Game {
         this.lifePointBasicEnemy++;
     }
 
-    private void createHeroGroup(int heroesNumber){
+    public static void createHeroGroup(int heroesNumber, ListView<String> selectedHeroes){
         //Scanner scanner = new Scanner(System.in);
         //int heroesNumber = this.InputParser.questionInt("Creation d'une nouvelle equipe, combient voulez-vous de heros ?");
-        String heroType = "";
+        //String heroType = "";
+
         for (int i = 0; i < heroesNumber; i++){
+            String heroType = (String) selectedHeroes.getItems().get(i);
+            switch (heroType) {
+                case "Hunter" -> {
+                    Game.context.heroes.add(i, new Hunter());
+                    System.out.println("Hunter selectionne");
+                    System.out.println("");
+                }
+                case "Healer" -> {
+                    heroes.add(i, new Healer());
+                    System.out.println("Healer selectionne");
+                    System.out.println("");
+                }
+                case "Mage" -> {
+                    heroes.add(i, new Mage());
+                    System.out.println("Mage selectionne");
+                    System.out.println("");
+                }
+                case "Warrior" -> {
+                    heroes.add(i, new Warrior());
+                    System.out.println("Warrior selectionne");
+                    System.out.println("");
+                }
+                default -> {
+                    System.out.println("Vous n'avez pas entre un nom valide de type. Ressayez");
+                    System.out.println("");
+                }
+            }
+        }
+
+        /*
+        for (int i = 0; i < heroesNumber; i++){
+
             do {
                 //heroType = this.InputParser.questionString("Quel est le type du hero du hero numero " + i + " ?");
                 //System.out.println(heroType);
@@ -279,6 +358,8 @@ public class Game {
                 }
             }while ((!"Hunter".equals(heroType)) && (!"Healer".equals(heroType)) && (!"Mage".equals(heroType)) && (!"Warrior".equals(heroType)));
         }
+         */
+
     }
 
     private void displayTeam(){

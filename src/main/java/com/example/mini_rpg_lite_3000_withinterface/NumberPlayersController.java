@@ -1,34 +1,18 @@
 package com.example.mini_rpg_lite_3000_withinterface;
 
-import javafx.event.ActionEvent;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
-import javafx.stage.Stage;
+import javafx.scene.control.*;
 
-import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
-public class HelloController implements Initializable {
-    @FXML
-    private Label welcomeText;
-    @FXML
-    private Button btnStart, btnNumberPlayers;
-    @FXML
-    private Thread thread;
-    @FXML
-    private Stage stage;
-    @FXML
-    private Scene scene;
+public class NumberPlayersController implements Initializable {
     @FXML
     private Parent root;
     @FXML
@@ -45,8 +29,12 @@ public class HelloController implements Initializable {
 
     @FXML
     protected void handleBtnNumberPlayers() throws Exception{
+        int numberOfHeroes = spinner.getValue();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("choose-heroes.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
+        root = fxmlLoader.load();
+        ChooseHeroesController chooseHeroesController = fxmlLoader.getController();
+        chooseHeroesController.setNumberOfHeroes(numberOfHeroes);
+        Scene scene = new Scene(root);
         HelloApplication.stage.setScene(scene);
         HelloApplication.stage.show();
     }
@@ -55,8 +43,17 @@ public class HelloController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10);
         valueFactory.setValue(1);
-        this.spinner.setValueFactory(valueFactory);
-        this.currentValue = spinner.getValue();
+        spinner.setValueFactory(valueFactory);
+        currentValue = spinner.getValue();
+        spinner.valueProperty().addListener(new ChangeListener<Integer>() {
+            @Override
+            public void changed(ObservableValue<? extends Integer> observableValue, Integer integer, Integer t1) {
+                currentValue = spinner.getValue();
+            }
+
+        });
+
+
     }
 
 }

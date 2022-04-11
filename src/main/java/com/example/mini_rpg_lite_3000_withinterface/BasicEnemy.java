@@ -11,4 +11,9 @@ public class BasicEnemy extends Enemy{
         hero.losingLife(3);
     }
 
+    @Override
+    public String displayType() {
+        return "Ennemi basique";
+    }
+
 }

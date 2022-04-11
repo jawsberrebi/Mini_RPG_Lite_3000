@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mini_rpg_lite_3000_withinterface.HelloController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mini_rpg_lite_3000_withinterface.NumberPlayersController">
    <children>
       <VBox prefHeight="200.0" prefWidth="100.0" />
       <Label layoutX="175.0" layoutY="54.0" text="Mini RPG Lite 3000" textAlignment="CENTER" textFill="RED">

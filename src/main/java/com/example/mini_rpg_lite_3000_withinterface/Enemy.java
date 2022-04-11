@@ -32,4 +32,6 @@ public abstract class Enemy {
             return false;
         }
     }
+
+    public abstract String displayType();
 }

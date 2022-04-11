@@ -10,4 +10,9 @@ public class Boss extends Enemy{
     public void attack(Hero hero) {
         hero.losingLife(20);
     }
+
+    @Override
+    public String displayType() {
+        return "Boss";
+    }
 }
