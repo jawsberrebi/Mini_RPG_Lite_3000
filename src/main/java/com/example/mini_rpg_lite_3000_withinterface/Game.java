@@ -33,6 +33,14 @@ public class Game {
         return enemies;
     }
 
+    public static int getCurrentPositionHero() {
+        return currentPositionHero;
+    }
+
+    public static int getCurrentPositionEnemy() {
+        return currentPositionEnemy;
+    }
+
     //Enumération
     public static enum Status{
         START_COMBAT,
@@ -54,12 +62,14 @@ public class Game {
         Game.context.lifePointBasicEnemy = 5;
         Game.context.lifePointBoss = 50;
         Game.context.combatNumber = 0;
-
         Game.context.generateCombat();
+        Random random = new Random();
 
         Game.context.status = Status.START_COMBAT;
-        //Game.context.combatNumber++;
+        Game.context.currentPositionHero = random.nextInt(Game.context.heroes.size());
+        Game.context.currentPositionEnemy = random.nextInt(Game.context.enemies.size());
 
+        //Game.context.combatNumber++;
         //Creation d'une nouvelle equipe et affichage des données sur chaque personnage
         //Game.context.createHeroGroup();
         //Game.context.displayTeam();
@@ -360,6 +370,16 @@ public class Game {
         }
          */
 
+    }
+
+    public static void attack(){
+        Game.context.heroes.get(Game.context.currentPositionHero).attack(Game.context.enemies.get(Game.context.currentPositionEnemy), null);
+
+        if (Game.context.enemies.get(Game.context.currentPositionEnemy).isDead()){
+            Game.context.enemies.remove(Game.context.currentPositionEnemy);
+            Random random = new Random();
+            Game.context.currentPositionEnemy = random.nextInt(Game.context.enemies.size());
+        }
     }
 
     private void displayTeam(){

@@ -51,10 +51,9 @@ public class Healer extends SpellCaster{
     }
 
     @Override
-    public void displayData() {
-        System.out.println("====INFORMATIONS SUR LE HEALER====");
+    public String displayData() {
+        return "====INFORMATIONS SUR LE HEALER====" + "\n" +
         super.displayData();
-        System.out.println("===================================");
     }
 
     @Override

@@ -17,14 +17,10 @@ public abstract class SpellCaster extends Hero{
     public abstract void spelling(Enemy enemy, Hero hero);
 
     @Override
-    public void displayData() {
-        super.displayData();
-        System.out.println("Points de mana : " + this.manaPoints);
-        System.out.println("Cout actuel du mana : " + this.costManaPoints);
-        System.out.println("=   POTIONS    =");
-        for (Potion element: potions){
-            element.display();
-        }
+    public String displayData() {
+        return super.displayData() + "\n" +
+        "Points de mana : " + this.manaPoints + "\n" +
+        "Cout actuel du mana : " + this.costManaPoints + "\n";
     }
 
     @Override

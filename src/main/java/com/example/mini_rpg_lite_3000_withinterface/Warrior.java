@@ -33,10 +33,9 @@ public class Warrior extends Hero{
     }
 
     @Override
-    public void displayData() {
-        System.out.println("====INFORMATIONS SUR LE WARRIOR====");
+    public String displayData() {
+        return "====INFORMATIONS SUR LE WARRIOR====" + "\n" +
         super.displayData();
-        System.out.println("===================================");
     }
 
     @Override

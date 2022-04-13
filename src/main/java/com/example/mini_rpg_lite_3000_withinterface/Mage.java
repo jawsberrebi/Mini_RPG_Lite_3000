@@ -51,10 +51,9 @@ public class Mage extends SpellCaster{
     }
 
     @Override
-    public void displayData() {
-        System.out.println("====INFORMATIONS SUR LE MAGE====");
+    public String displayData() {
+        return "====INFORMATIONS SUR LE MAGE====" + "\n" +
         super.displayData();
-        System.out.println("===================================");
     }
 
     @Override

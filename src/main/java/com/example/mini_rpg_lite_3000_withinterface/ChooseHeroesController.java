@@ -5,7 +5,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 
@@ -13,8 +12,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ChooseHeroesController implements Initializable {
-    @FXML
-    private Parent root;
     @FXML
     private ListView<String> proposedHeroes = new ListView<>();
     @FXML
@@ -32,13 +29,6 @@ public class ChooseHeroesController implements Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("game.fxml"));
             HelloApplication.setNumberOfHeroes(this.numberOfHeroes);
             HelloApplication.setSelectedHeroes(this.selectedHeroes);
-            //this.root = fxmlLoader.load();
-            /*
-            GameController gameController = fxmlLoader.getController();
-            gameController.setSelectedHeroes(this.selectedHeroes);
-            gameController.setNumberOfHeroes(this.numberOfHeroes);
-            //Game.createHeroGroup(this.numberOfHeroes, this.selectedHeroes); //A METTRE DANS CONTROLLEUR GAME
-             */
             Scene scene = new Scene(fxmlLoader.load());
             HelloApplication.stage.setScene(scene);
             HelloApplication.stage.show();

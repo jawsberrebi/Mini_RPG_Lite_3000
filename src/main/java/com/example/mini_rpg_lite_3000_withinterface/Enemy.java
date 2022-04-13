@@ -22,8 +22,8 @@ public abstract class Enemy {
             this.lifePoints = 0;
         }
     }
-    public void displayData(){
-        System.out.println("Points de vie : " + this.lifePoints);
+    public String displayData(){
+        return "Points de vie : " + this.lifePoints;
     }
     public boolean isDead(){
         if (this.lifePoints <= 0){

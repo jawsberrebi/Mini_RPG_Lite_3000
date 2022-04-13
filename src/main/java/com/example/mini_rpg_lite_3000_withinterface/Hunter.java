@@ -50,11 +50,10 @@ public class Hunter extends Hero{
     }
 
     @Override
-    public void displayData() {
-        System.out.println("====INFORMATIONS SUR LE HUNTER====");
-        super.displayData();
-        System.out.println("Nombre de fleches : " + this.arrows);
-        System.out.println("===================================");
+    public String displayData() {
+        return "====INFORMATIONS SUR LE HUNTER====" + "\n" +
+        super.displayData() +
+        "Nombre de fleches : " + this.arrows;
     }
 
     @Override

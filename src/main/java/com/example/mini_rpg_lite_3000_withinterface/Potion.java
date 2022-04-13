@@ -16,7 +16,7 @@ public class Potion implements Consumable{
     }
 
     @Override
-    public void display() {
-        System.out.println(this.name + " : " + this.manaPoints + " points");
+    public String display() {
+        return this.name + " : " + this.manaPoints + " points";
     }
 }

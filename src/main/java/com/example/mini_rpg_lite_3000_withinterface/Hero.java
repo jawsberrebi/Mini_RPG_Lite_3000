@@ -76,15 +76,12 @@ public abstract class Hero {
             this.lifePoints += consumable.giveBonus();
         }
     }
-    public void displayData(){
-        System.out.println("Points de vie : " + getLifePoints());
-        System.out.println("Points d'armure : " + getArmor());
-        System.out.println("Points de degat : " + getWeaponDamage());
-        System.out.println("Consommables actuels :");
-        System.out.println("=   FOOD    =");
-        for (Food element: lembdas){
-            element.display();
-        }
+    public String displayData(){
+        return "Points de vie : " + getLifePoints() + "\n" +
+                "Points d'armure : " + getArmor() + "\n" +
+                "Points de degat : " + getWeaponDamage() + "\n" +
+                "Consommables actuels :" + "\n";
+
     }
     public abstract String displayType();
 }
