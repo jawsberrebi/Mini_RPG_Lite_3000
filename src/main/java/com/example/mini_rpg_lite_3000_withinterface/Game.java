@@ -45,8 +45,9 @@ public class Game {
     public static enum Status{
         START_COMBAT,
         HERO_TURN,
+        HEAL_TURN,
         ENEMY_TURN,
-        END_GAME
+        END_GAME,
     }
     public static Status status;
 
@@ -62,12 +63,11 @@ public class Game {
         Game.context.lifePointBasicEnemy = 5;
         Game.context.lifePointBoss = 50;
         Game.context.combatNumber = 0;
-        Game.context.generateCombat();
-        Random random = new Random();
+
 
         Game.context.status = Status.START_COMBAT;
-        Game.context.currentPositionHero = random.nextInt(Game.context.heroes.size());
-        Game.context.currentPositionEnemy = random.nextInt(Game.context.enemies.size());
+        //Game.context.currentPositionHero = random.nextInt(Game.context.heroes.size());
+        //Game.context.currentPositionEnemy = random.nextInt(Game.context.enemies.size());
 
         //Game.context.combatNumber++;
         //Creation d'une nouvelle equipe et affichage des données sur chaque personnage
@@ -284,6 +284,7 @@ public class Game {
         int chanceOfBoss = random.nextInt(4 + 1) + 1;
 
         //Creation des ennemis
+        //Remplacer this.heroes.size par le nombre de héros de départ ?
         for (int i = 0; i < this.heroes.size(); i++){
             this.enemies.add(i, new BasicEnemy(this.lifePointBasicEnemy));
         }
@@ -291,7 +292,13 @@ public class Game {
         //Probabilite d'obtenir un boss dans un groupe
         if (chanceOfBoss == 3){
             System.out.println(this.enemies.size());
-            this.enemies.set(this.enemies.size() - 2, new Boss(this.lifePointBoss));
+            if (this.enemies.size() < 3){
+                this.enemies.set(this.enemies.size() -1, new Boss(this.lifePointBoss));
+            }else{
+                this.enemies.set(this.enemies.size() - 2, new Boss(this.lifePointBoss));
+            }
+
+
             this.lifePointBoss += 10;
         }
 
@@ -372,13 +379,48 @@ public class Game {
 
     }
 
-    public static void attack(){
-        Game.context.heroes.get(Game.context.currentPositionHero).attack(Game.context.enemies.get(Game.context.currentPositionEnemy), null);
+    public static boolean attack(int indexHeroToHeal){
+        if(Game.context.getHeroes().get(Game.context.getCurrentPositionHero()) instanceof Healer){
+            Game.context.heroes.get(Game.context.currentPositionHero).attack(null, Game.context.heroes.get(indexHeroToHeal));
+            return false;
+        }else{
+            Game.context.heroes.get(Game.context.currentPositionHero).attack(Game.context.enemies.get(Game.context.currentPositionEnemy), null);
+            if (Game.context.enemies.get(Game.context.currentPositionEnemy).isDead()){
+                Game.context.enemies.remove(Game.context.currentPositionEnemy);
+                if (Game.context.enemies.isEmpty()){
+                    System.out.println("Couscous");
+                    Game.context.status = Status.START_COMBAT;
+                }else {
+                    Random random = new Random();
+                    Game.context.status = Status.ENEMY_TURN;
+                    Game.context.currentPositionEnemy = random.nextInt(Game.context.enemies.size());
+                }
+                return true;
+            }else {
+                Game.context.status = Status.ENEMY_TURN;
+                return false;
+            }
+        }
 
-        if (Game.context.enemies.get(Game.context.currentPositionEnemy).isDead()){
-            Game.context.enemies.remove(Game.context.currentPositionEnemy);
+    }
+
+    public static boolean attackEnemy(){
+        Game.context.enemies.get(Game.context.currentPositionEnemy).attack(Game.context.heroes.get(Game.context.currentPositionHero));
+        if (!Game.context.heroes.get(Game.context.currentPositionHero).isDead()){
+            System.out.println("Fait");
+            //Game.context.enemies.get(Game.context.currentPositionEnemy).attack(Game.context.heroes.get(Game.context.currentPositionHero));
+            Game.context.status = Status.HERO_TURN;
+            return false;
+        } else {
+            Game.context.heroes.remove(Game.context.currentPositionHero);
             Random random = new Random();
-            Game.context.currentPositionEnemy = random.nextInt(Game.context.enemies.size());
+            if (!Game.context.heroes.isEmpty()) {
+                Game.context.currentPositionHero = random.nextInt(0, Game.context.heroes.size());
+                Game.context.status = Status.HERO_TURN;
+            } else {
+                Game.context.status = Status.END_GAME;
+            }
+            return true;
         }
     }
 

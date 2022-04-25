@@ -2,10 +2,11 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mini_rpg_lite_3000_withinterface.GameController">
+<AnchorPane prefHeight="400.0" prefWidth="674.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mini_rpg_lite_3000_withinterface.GameController">
    <children>
       <Button fx:id="gameBtn" layoutX="175.0" layoutY="349.0" mnemonicParsing="false" onMouseClicked="#updateBtn" prefHeight="26.0" prefWidth="250.0" text="Nouveau combat" />
       <Label layoutX="191.0" layoutY="21.0" text="Combat N°" textAlignment="CENTER">
@@ -18,12 +19,12 @@
             <Font size="30.0" />
          </font>
       </Label>
-      <Label fx:id="currentHero" layoutX="81.0" layoutY="89.0" text="Label" textFill="#001eff">
+      <Label fx:id="currentHero" layoutX="20.0" layoutY="88.0" text="Label" textFill="#001eff">
          <font>
             <Font size="40.0" />
          </font>
       </Label>
-      <Label fx:id="currentEnemy" layoutX="425.0" layoutY="89.0" text="Label" textFill="#ff0404">
+      <Label fx:id="currentEnemy" layoutX="547.0" layoutY="88.0" text="Label" textFill="#ff0404">
          <font>
             <Font size="40.0" />
          </font>
@@ -42,6 +43,13 @@
          </font>
       </Label>
       <Label fx:id="heroData" layoutX="53.0" layoutY="163.0" text="Label" />
-      <Label fx:id="enemyData" layoutX="505.0" layoutY="163.0" text="Label" textAlignment="RIGHT" />
+      <Label fx:id="enemyData" layoutX="580.0" layoutY="163.0" text="Label" textAlignment="RIGHT" />
+      <Label fx:id="actualState" layoutX="286.0" layoutY="154.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <ListView fx:id="heroesToHeal" layoutX="213.0" layoutY="157.0" prefHeight="175.0" prefWidth="170.0" />
+      <Button fx:id="healBtn" layoutX="215.0" layoutY="349.0" mnemonicParsing="false" onAction="#handleBtnHeal" prefHeight="26.0" prefWidth="170.0" text="Guérir" />
    </children>
 </AnchorPane>
