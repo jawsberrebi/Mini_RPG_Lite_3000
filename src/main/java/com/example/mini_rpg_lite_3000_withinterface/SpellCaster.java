@@ -18,9 +18,13 @@ public abstract class SpellCaster extends Hero{
 
     @Override
     public String displayData() {
-        return super.displayData() + "\n" +
-        "Points de mana : " + this.manaPoints + "\n" +
-        "Cout actuel du mana : " + this.costManaPoints + "\n";
+        StringBuilder ptn = new StringBuilder();
+        for (Potion potion : this.potions) {
+            ptn.append(potion.display()).append("\n");
+        }
+        return "Points de mana : " + this.manaPoints + "\n" +
+                "Cout actuel du mana : " + this.costManaPoints + "\n" +
+                super.displayData() + ptn;
     }
 
     @Override

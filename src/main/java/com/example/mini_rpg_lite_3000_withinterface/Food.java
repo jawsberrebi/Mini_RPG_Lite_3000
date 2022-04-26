@@ -19,4 +19,9 @@ public class Food implements Consumable{
     public String display() {
         return this.name + " : " + this.bonusLifePoints + " points";
     }
+
+    @Override
+    public String displayType() {
+        return this.name + " : " + this.bonusLifePoints + " points";
+    }
 }

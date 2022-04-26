@@ -45,7 +45,6 @@ public class Game {
     public static enum Status{
         START_COMBAT,
         HERO_TURN,
-        HEAL_TURN,
         ENEMY_TURN,
         END_GAME,
     }
@@ -422,6 +421,27 @@ public class Game {
             }
             return true;
         }
+    }
+
+    public static void defend(){
+        Game.context.getHeroes().get(Game.context.getCurrentPositionHero()).defend();
+        Game.context.status = Status.ENEMY_TURN;
+    }
+
+    public static boolean isArmorOn(){
+        if (Game.context.getHeroes().get(Game.context.getCurrentPositionHero()).getIsArmorOn()){
+            if (Game.context.getHeroes().get(Game.context.getCurrentPositionHero()).getArmor() > 0){
+                return true;
+            }else {
+                return false;
+            }
+        }else {
+            return false;
+        }
+    }
+
+    public static void eat(){
+
     }
 
     private void displayTeam(){

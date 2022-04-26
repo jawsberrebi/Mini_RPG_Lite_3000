@@ -34,6 +34,15 @@ public abstract class Hero {
     public void setIsArmorOn(boolean armorOn) {
         this.isArmorOn = armorOn;
     }
+    public boolean getIsArmorOn(){
+        return this.isArmorOn;
+    }
+    public List<Food> getLembdas() {
+        return this.lembdas;
+    }
+    public List<Potion> getPotions() {
+        return this.potions;
+    }
 
     // Méthodes
     public abstract void attack(Enemy enemy, Hero hero);
@@ -77,10 +86,15 @@ public abstract class Hero {
         }
     }
     public String displayData(){
+        StringBuilder food = new StringBuilder();
+        for (Food lembda : this.lembdas) {
+            food.append(lembda.display()).append("\n");
+        }
         return "Points de vie : " + getLifePoints() + "\n" +
                 "Points d'armure : " + getArmor() + "\n" +
                 "Points de degat : " + getWeaponDamage() + "\n" +
-                "Consommables actuels :" + "\n";
+                "Consommables actuels :" + "\n" + food;
+
 
     }
     public abstract String displayType();
