@@ -231,7 +231,7 @@ public class GameController {
         this.potionBtn.setVisible(false);
         this.consumables.getItems().clear();
         for (int i = 0; i < Game.context.getHeroes().get(Game.context.getCurrentPositionHero()).getLembdas().size(); i++){
-            this.consumables.getItems().add(Game.context.getHeroes().get(Game.context.getCurrentPositionHero()).getLembdas().get(i).displayType());
+            this.consumables.getItems().add(Game.context.getHeroes().get(Game.context.getCurrentPositionHero()).getLembdas().get(i).display());
         }
         this.consumables.setVisible(true);
         this.consumeBtn.setText("Manger");
@@ -245,7 +245,7 @@ public class GameController {
         this.potionBtn.setVisible(false);
         this.consumables.getItems().clear();
         for (int i = 0; i < Game.context.getHeroes().get(Game.context.getCurrentPositionHero()).getLembdas().size(); i++){
-            this.consumables.getItems().add(Game.context.getHeroes().get(Game.context.getCurrentPositionHero()).getLembdas().get(i).displayType());
+            this.consumables.getItems().add(Game.context.getHeroes().get(Game.context.getCurrentPositionHero()).getLembdas().get(i).display());
         }
         this.consumables.setVisible(true);
         this.consumeBtn.setText("Boire");
