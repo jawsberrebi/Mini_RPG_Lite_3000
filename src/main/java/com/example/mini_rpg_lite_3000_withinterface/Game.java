@@ -17,6 +17,7 @@ public class Game {
     private int lifePointBasicEnemy;
     private int lifePointBoss;
     private static int combatNumber;
+    private static int armorRewardPoints;
     protected static int currentPositionHero;
     protected static int currentPositionEnemy;
 
@@ -46,6 +47,7 @@ public class Game {
         START_COMBAT,
         HERO_TURN,
         ENEMY_TURN,
+        REWARDS_TIME,
         END_GAME,
     }
     public static Status status;
@@ -62,6 +64,7 @@ public class Game {
         Game.context.lifePointBasicEnemy = 5;
         Game.context.lifePointBoss = 50;
         Game.context.combatNumber = 0;
+        Game.context.armorRewardPoints = 2;
 
 
         Game.context.status = Status.START_COMBAT;
@@ -306,10 +309,6 @@ public class Game {
     }
 
     public static void createHeroGroup(int heroesNumber, ListView<String> selectedHeroes){
-        //Scanner scanner = new Scanner(System.in);
-        //int heroesNumber = this.InputParser.questionInt("Creation d'une nouvelle equipe, combient voulez-vous de heros ?");
-        //String heroType = "";
-
         for (int i = 0; i < heroesNumber; i++){
             String heroType = (String) selectedHeroes.getItems().get(i);
             switch (heroType) {
@@ -339,43 +338,6 @@ public class Game {
                 }
             }
         }
-
-        /*
-        for (int i = 0; i < heroesNumber; i++){
-
-            do {
-                //heroType = this.InputParser.questionString("Quel est le type du hero du hero numero " + i + " ?");
-                //System.out.println(heroType);
-                switch (heroType) {
-                    case "Hunter" -> {
-                        Game.context.heroes.add(i, new Hunter());
-                        //System.out.println("Hunter selectionne");
-                        //System.out.println("");
-                    }
-                    case "Healer" -> {
-                        heroes.add(i, new Healer());
-                        System.out.println("Healer selectionne");
-                        System.out.println("");
-                    }
-                    case "Mage" -> {
-                        heroes.add(i, new Mage());
-                        System.out.println("Mage selectionne");
-                        System.out.println("");
-                    }
-                    case "Warrior" -> {
-                        heroes.add(i, new Warrior());
-                        System.out.println("Warrior selectionne");
-                        System.out.println("");
-                    }
-                    default -> {
-                        System.out.println("Vous n'avez pas entre un nom valide de type. Ressayez");
-                        System.out.println("");
-                    }
-                }
-            }while ((!"Hunter".equals(heroType)) && (!"Healer".equals(heroType)) && (!"Mage".equals(heroType)) && (!"Warrior".equals(heroType)));
-        }
-         */
-
     }
 
     public static boolean attack(int indexHeroToHeal){
@@ -388,7 +350,7 @@ public class Game {
                 Game.context.enemies.remove(Game.context.currentPositionEnemy);
                 if (Game.context.enemies.isEmpty()){
                     System.out.println("Couscous");
-                    Game.context.status = Status.START_COMBAT;
+                    Game.context.status = Status.REWARDS_TIME;
                 }else {
                     Random random = new Random();
                     Game.context.status = Status.ENEMY_TURN;
@@ -428,6 +390,12 @@ public class Game {
         Game.context.status = Status.ENEMY_TURN;
     }
 
+    public static void undefendAll(){
+        for(int i = 0; i < Game.context.getHeroes().size(); i++){
+            Game.context.getHeroes().get(i).setIsArmorOn(false);
+        }
+    }
+
     public static boolean isArmorOn(){
         if (Game.context.getHeroes().get(Game.context.getCurrentPositionHero()).getIsArmorOn()){
             if (Game.context.getHeroes().get(Game.context.getCurrentPositionHero()).getArmor() > 0){
@@ -440,8 +408,11 @@ public class Game {
         }
     }
 
-    public static void eat(){
-
+    public static void enhanceArmor(){
+        for (int i = 0; i < Game.context.getHeroes().size(); i++){
+            Game.context.getHeroes().get(i).setArmor(Game.context.getHeroes().get(i).getArmor() + Game.context.armorRewardPoints);
+        }
+        Game.context.armorRewardPoints += 2;
     }
 
     private void displayTeam(){
@@ -540,8 +511,6 @@ public class Game {
                     System.out.println("Entree non valide. Entrez le chiffre correspondant a l'action entre 1 et 2");
                 }
             }while ((numberAction < 1) && (numberAction > 2));
-
-            //Mettre un switch puis executer les choix
         }
     }
 }

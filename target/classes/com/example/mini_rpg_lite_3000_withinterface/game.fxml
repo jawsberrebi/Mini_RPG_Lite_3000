@@ -61,5 +61,41 @@
       <Button fx:id="foodBtn" layoutX="212.0" layoutY="232.0" mnemonicParsing="false" onAction="#handleBtnFood" prefHeight="26.0" prefWidth="170.0" text="Manger de la nourriture" />
       <Button fx:id="potionBtn" layoutX="213.0" layoutY="270.0" mnemonicParsing="false" onAction="#handleBtnPotion" prefHeight="26.0" prefWidth="170.0" text="Boire une potion" />
       <ListView fx:id="consumables" layoutX="213.0" layoutY="157.0" prefHeight="175.0" prefWidth="170.0" />
+      <Button fx:id="consumeBtn" layoutX="215.0" layoutY="349.0" mnemonicParsing="false" onAction="#handleBtnConsume" prefHeight="26.0" prefWidth="170.0" text="Consommer" />
+      <Button fx:id="enhanceArmorBtn" layoutX="213.0" layoutY="157.0" mnemonicParsing="false" onAction="#handleBtnEnhanceArmor" prefHeight="27.0" prefWidth="170.0" text="Augmenter les points d'armure">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Button>
+      <Button fx:id="enhanceDammagesBtn" layoutX="213.0" layoutY="193.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="170.0" text="Augmenter les points de dégât">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Button>
+      <Button fx:id="enhanceConsummablesBtn" layoutX="212.0" layoutY="228.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="170.0" text="Augmenter l'efficacité des consommables">
+         <font>
+            <Font size="8.0" />
+         </font>
+      </Button>
+      <Button fx:id="enhanceQuantityConsumablesBtn" layoutX="213.0" layoutY="263.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="170.0" text="Obtenir plus de consommables">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Button>
+      <Button fx:id="enhanceQuantifiableWeaponBtn" layoutX="212.0" layoutY="296.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="170.0" text="Augmenter l'efficacité d'un héro">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Button>
+      <Button fx:id="enhanceQuantityFoodBtn" layoutX="213.0" layoutY="229.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="170.0" text="Augmenter la quantité de nourriture">
+         <font>
+            <Font size="9.0" />
+         </font>
+      </Button>
+      <Button fx:id="enhanceQuantityPotionBtn" layoutX="213.0" layoutY="263.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="170.0" text="Augmenter le nombre de potions">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

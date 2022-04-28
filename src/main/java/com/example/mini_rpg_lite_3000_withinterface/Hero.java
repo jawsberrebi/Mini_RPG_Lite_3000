@@ -28,6 +28,9 @@ public abstract class Hero {
     public int getArmor() {
         return this.armor;
     }
+    public void setArmor(int armor) {
+        this.armor = armor;
+    }
     public int getWeaponDamage() {
         return this.weaponDamage;
     }
@@ -80,9 +83,11 @@ public abstract class Hero {
     public void healLifePoints(int healLifePoints) {
         this.lifePoints += healLifePoints;
     }
-    public void useConsumable(Consumable consumable){
-        if (consumable instanceof Food) {
-            this.lifePoints += consumable.giveBonus();
+    public void useConsumable(int indexConsumable, boolean isFood){
+        if (isFood){
+            this.lifePoints += this.lembdas.get(indexConsumable).giveBonus();
+            System.out.println(this.lembdas.get(indexConsumable).giveBonus());
+            this.lembdas.remove(indexConsumable);
         }
     }
     public String displayData(){

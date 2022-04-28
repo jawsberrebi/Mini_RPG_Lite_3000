@@ -28,11 +28,14 @@ public abstract class SpellCaster extends Hero{
     }
 
     @Override
-    public void useConsumable(Consumable consumable) {
-        if (consumable instanceof Potion){
-            this.manaPoints += consumable.giveBonus();
+    public void useConsumable(int indexConsumable, boolean isFood) {
+        if (isFood){
+            super.useConsumable(indexConsumable, isFood);
+        }else {
+            this.manaPoints += this.potions.get(indexConsumable).giveBonus();
+            this.potions.remove(indexConsumable);
         }
-        super.useConsumable(consumable);
+
     }
 
     public int getManaPoints() {

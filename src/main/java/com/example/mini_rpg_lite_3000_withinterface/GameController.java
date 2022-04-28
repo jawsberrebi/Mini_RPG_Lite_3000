@@ -53,12 +53,28 @@ public class GameController {
     private ListView consumables;
     @FXML
     private Button consumeBtn;
+    @FXML
+    private Button enhanceArmorBtn;
+    @FXML
+    private Button enhanceDammagesBtn;
+    @FXML
+    private Button enhanceConsummablesBtn;
+    @FXML
+    private Button enhanceQuantityConsumablesBtn;
+    @FXML
+    private Button enhanceQuantityFoodBtn;
+    @FXML
+    private Button enhanceQuantityPotionBtn;
+    @FXML
+    private Button enhanceQuantifiableWeaponBtn;
 
     private boolean resultAttackHero;
 
     private boolean attackResultEnemy;
 
     private int indexHeroToHeal;
+
+    private int indexConsumables;
 
     @FXML
     public void initialize(){
@@ -71,8 +87,10 @@ public class GameController {
         this.consumables.setVisible(false);
         this.foodBtn.setVisible(false);
         this.potionBtn.setVisible(false);
+        this.consumeBtn.setVisible(false);
         this.whatToDo.setText("Que faire ?");
         hideActions();
+        hideActionsAfterVictory();
         System.out.println(HelloApplication.getNumberOfHeroes());
         Game.createHeroGroup(HelloApplication.getNumberOfHeroes(), HelloApplication.getSelectedHeroes());
         Game.playGame();
@@ -99,7 +117,9 @@ public class GameController {
                 Game.context.currentPositionEnemy = random.nextInt(Game.context.getEnemies().size());
                 this.gameBtn.setText("Commencer un nouveau combat");
                 this.gameBtn.setVisible(false);
-                this.armorImg.setVisible(false);
+                hideActionsAfterVictory();
+                Game.context.undefendAll();
+                this.armorImg.setVisible(Game.context.isArmorOn());
                 this.consumables.setVisible(false);
                 this.consumeBtn.setVisible(false);
                 this.currentHero.setVisible(true);
@@ -152,11 +172,22 @@ public class GameController {
                 this.whatToDo.setText("L'ennemi a attaqué !");
                 this.gameBtn.setText("Continuer le combat");
                 break;
+
+            case REWARDS_TIME:
+                hideActions();
+                this.currentHero.setVisible(false);
+                this.currentEnemy.setVisible(false);
+                this.gameBtn.setVisible(false);
+                this.heroData.setVisible(false);
+                this.enemyData.setVisible(false);
+                this.armorImg.setVisible(false);
+                this.whatToDo.setVisible(true);
+                this.whatToDo.setText("Le combat a été gagné ! Que souhaitez-vous faire ?");
+                displayActionsAfterVictory();
+                break;
             case END_GAME:
                 hideActions();
                 this.gameBtn.setVisible(false);
-                this.currentHero.setVisible(false);
-                this.currentEnemy.setVisible(false);
                 this.currentHero.setVisible(false);
                 this.currentEnemy.setVisible(false);
                 this.heroData.setVisible(false);
@@ -236,6 +267,7 @@ public class GameController {
         this.consumables.setVisible(true);
         this.consumeBtn.setText("Manger");
         this.consumeBtn.setVisible(true);
+        consumablesSelection();
     }
 
     @FXML
@@ -244,17 +276,28 @@ public class GameController {
         this.foodBtn.setVisible(false);
         this.potionBtn.setVisible(false);
         this.consumables.getItems().clear();
-        for (int i = 0; i < Game.context.getHeroes().get(Game.context.getCurrentPositionHero()).getLembdas().size(); i++){
-            this.consumables.getItems().add(Game.context.getHeroes().get(Game.context.getCurrentPositionHero()).getLembdas().get(i).display());
+        for (int i = 0; i < Game.context.getHeroes().get(Game.context.getCurrentPositionHero()).getPotions().size(); i++){
+            this.consumables.getItems().add(Game.context.getHeroes().get(Game.context.getCurrentPositionHero()).getPotions().get(i).display());
         }
         this.consumables.setVisible(true);
         this.consumeBtn.setText("Boire");
         this.consumeBtn.setVisible(true);
+        consumablesSelection();
     }
 
     @FXML
     public void handleBtnConsume(){
-        //Remplir le code pour la consommation de consommable
+        consumablesSelection();
+        if(this.consumeBtn.getText().equals("Manger")){
+            Game.context.getHeroes().get(Game.context.getCurrentPositionHero()).useConsumable(this.indexConsumables, true);
+        }else {
+            Game.context.getHeroes().get(Game.context.getCurrentPositionHero()).useConsumable(this.indexConsumables, false);
+        }
+        Game.context.status = Game.Status.ENEMY_TURN;
+        this.consumables.setVisible(false);
+        this.consumeBtn.setVisible(false);
+        this.heroData.setText(Game.context.getHeroes().get(Game.context.getCurrentPositionHero()).displayData());
+        this.gameBtn.setVisible(true);
     }
 
     private void healerAttack(){
@@ -300,5 +343,40 @@ public class GameController {
         for (int i = 0; i < Game.context.getHeroes().size(); i++){
             this.heroesToHeal.getItems().add(Game.context.getHeroes().get(i).displayType());
         }
+    }
+
+    private void consumablesSelection(){
+        this.consumables.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                indexConsumables = consumables.getSelectionModel().getSelectedIndex();
+            }
+        });
+    }
+
+    private void displayActionsAfterVictory(){
+        this.enhanceArmorBtn.setVisible(true);
+        this.enhanceDammagesBtn.setVisible(true);
+        this.enhanceConsummablesBtn.setVisible(true);
+        this.enhanceQuantityConsumablesBtn.setVisible(true);
+        this.enhanceQuantifiableWeaponBtn.setVisible(true);
+    }
+
+    @FXML
+    public void handleBtnEnhanceArmor(){
+        hideActionsAfterVictory();
+        Game.context.enhanceArmor();
+        Game.context.status = Game.Status.START_COMBAT;
+        this.gameBtn.setVisible(true);
+    }
+
+    private void hideActionsAfterVictory(){
+        this.enhanceArmorBtn.setVisible(false);
+        this.enhanceDammagesBtn.setVisible(false);
+        this.enhanceConsummablesBtn.setVisible(false);
+        this.enhanceQuantityConsumablesBtn.setVisible(false);
+        this.enhanceQuantityFoodBtn.setVisible(false);
+        this.enhanceQuantityPotionBtn.setVisible(false);
+        this.enhanceQuantifiableWeaponBtn.setVisible(false);
     }
 }
