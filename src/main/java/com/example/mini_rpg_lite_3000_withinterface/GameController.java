@@ -56,9 +56,9 @@ public class GameController {
     @FXML
     private Button enhanceArmorBtn;
     @FXML
-    private Button enhanceDammagesBtn;
+    private Button enhanceDamagesBtn;
     @FXML
-    private Button enhanceConsummablesBtn;
+    private Button enhanceConsumablesBtn;
     @FXML
     private Button enhanceQuantityConsumablesBtn;
     @FXML
@@ -67,6 +67,8 @@ public class GameController {
     private Button enhanceQuantityPotionBtn;
     @FXML
     private Button enhanceQuantifiableWeaponBtn;
+    @FXML
+    private Button enhanceHeroBtn;
 
     private boolean resultAttackHero;
 
@@ -356,8 +358,8 @@ public class GameController {
 
     private void displayActionsAfterVictory(){
         this.enhanceArmorBtn.setVisible(true);
-        this.enhanceDammagesBtn.setVisible(true);
-        this.enhanceConsummablesBtn.setVisible(true);
+        this.enhanceDamagesBtn.setVisible(true);
+        this.enhanceConsumablesBtn.setVisible(true);
         this.enhanceQuantityConsumablesBtn.setVisible(true);
         this.enhanceQuantifiableWeaponBtn.setVisible(true);
     }
@@ -366,14 +368,83 @@ public class GameController {
     public void handleBtnEnhanceArmor(){
         hideActionsAfterVictory();
         Game.context.enhanceArmor();
-        Game.context.status = Game.Status.START_COMBAT;
         this.gameBtn.setVisible(true);
     }
 
+    @FXML
+    public void handleBtnEnhanceDamages(){
+        hideActionsAfterVictory();
+        Game.context.enhanceDamages();
+        this.gameBtn.setVisible(true);
+    }
+
+    @FXML
+    public void handleBtnEnhanceConsumables(){
+        hideActionsAfterVictory();
+        Game.context.enhanceConsumables();
+        this.gameBtn.setVisible(true);
+    }
+
+    @FXML
+    public void handleBtnEnhanceQuantityConsumables(){
+        hideActionsAfterVictory();
+        this.enhanceQuantityFoodBtn.setVisible(true);
+        boolean isThereASpellCaster = false;
+        for (int i = 0; i < Game.context.getHeroes().size(); i++){
+            if (Game.context.getHeroes().get(i) instanceof SpellCaster){
+                isThereASpellCaster = true;
+            }
+        }
+        if(isThereASpellCaster){
+            this.enhanceQuantityPotionBtn.setVisible(true);
+        }
+    }
+
+    @FXML
+    public void handleBtnEnhanceQuantityFood(){
+        hideActionsAfterVictory();
+        Game.context.enhanceQuantityFood();
+        this.gameBtn.setVisible(true);
+    }
+
+    @FXML
+    public void handleBtnEnhanceQuantityPotions(){
+        hideActionsAfterVictory();
+        Game.context.enhanceQuantityPotions();
+        this.gameBtn.setVisible(true);
+    }
+
+    @FXML
+    public void handleBtnEnhanceQuantifiableWeapon(){
+        hideActionsAfterVictory();
+        this.heroesToHeal.setVisible(true);
+        this.enhanceHeroBtn.setVisible(true);
+        this.heroesToHeal.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                indexHeroToHeal = heroesToHeal.getSelectionModel().getSelectedIndex();
+            }
+        });
+    }
+
+    @FXML
+    public void handleBtnEnhanceHero(){
+        if (this.indexHeroToHeal >= 0){
+            Game.context.attack(this.indexHeroToHeal);
+            this.heroData.setText(Game.context.getHeroes().get(Game.context.getCurrentPositionHero()).displayData());
+            this.healBtn.setVisible(false);
+            this.enhanceHeroBtn.setVisible(false);
+            this.gameBtn.setVisible(true);
+        }
+    }
+
+
+
     private void hideActionsAfterVictory(){
+        this.enhanceHeroBtn.setVisible(false);
         this.enhanceArmorBtn.setVisible(false);
-        this.enhanceDammagesBtn.setVisible(false);
-        this.enhanceConsummablesBtn.setVisible(false);
+        this.enhanceDamagesBtn.setVisible(false);
+        this.enhanceConsumablesBtn.setVisible(false);
         this.enhanceQuantityConsumablesBtn.setVisible(false);
         this.enhanceQuantityFoodBtn.setVisible(false);
         this.enhanceQuantityPotionBtn.setVisible(false);

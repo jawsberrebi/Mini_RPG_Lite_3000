@@ -14,10 +14,10 @@ public abstract class Hero {
 
     public Hero(){
         this.lembdas = new ArrayList<>();
-        this.lembdas.add(new Food("Lembda niveau 1", 2));
-        this.lembdas.add(new Food("Lembda niveau 1", 2));
-        this.lembdas.add(new Food("Lembda niveau 1", 2));
-        this.lembdas.add(new Food("Lembda niveau 2", 4));
+        this.lembdas.add(new Food("Lembda", 2));
+        this.lembdas.add(new Food("Lembda", 2));
+        this.lembdas.add(new Food("Lembda", 2));
+        this.lembdas.add(new Food("Lembda", 4, 2));
     }
 
 
@@ -30,6 +30,9 @@ public abstract class Hero {
     }
     public void setArmor(int armor) {
         this.armor = armor;
+    }
+    public void setWeaponDamage(int weaponDamage) {
+        this.weaponDamage = weaponDamage;
     }
     public int getWeaponDamage() {
         return this.weaponDamage;

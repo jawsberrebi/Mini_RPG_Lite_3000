@@ -5,7 +5,6 @@ import javafx.scene.control.ListView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Scanner;
 
 public class Game {
 
@@ -20,6 +19,9 @@ public class Game {
     private static int armorRewardPoints;
     protected static int currentPositionHero;
     protected static int currentPositionEnemy;
+    private static int damagesRewardPoints;
+    private static int consumablesRewardPoints;
+    private static int consumablesRewardQuantity;
 
     //Getters/Setters
     public static int getCombatNumber() {
@@ -65,7 +67,9 @@ public class Game {
         Game.context.lifePointBoss = 50;
         Game.context.combatNumber = 0;
         Game.context.armorRewardPoints = 2;
-
+        Game.context.damagesRewardPoints = 3;
+        Game.context.consumablesRewardPoints = 2;
+        Game.context.consumablesRewardQuantity = 1;
 
         Game.context.status = Status.START_COMBAT;
         //Game.context.currentPositionHero = random.nextInt(Game.context.heroes.size());
@@ -413,6 +417,50 @@ public class Game {
             Game.context.getHeroes().get(i).setArmor(Game.context.getHeroes().get(i).getArmor() + Game.context.armorRewardPoints);
         }
         Game.context.armorRewardPoints += 2;
+        Game.context.status = Game.Status.START_COMBAT;
+    }
+
+    public static void enhanceDamages(){
+        for (int i = 0; i < Game.context.getHeroes().size(); i++){
+            Game.context.getHeroes().get(i).setWeaponDamage(Game.context.getHeroes().get(i).getWeaponDamage() + Game.context.damagesRewardPoints);
+        }
+        Game.context.damagesRewardPoints += 3;
+        Game.context.status = Game.Status.START_COMBAT;
+    }
+
+    public static void enhanceConsumables(){
+        for (int i = 0; i < Game.context.getHeroes().size(); i++){
+            if (Game.context.getHeroes().get(i) instanceof SpellCaster){
+                for (int u = 0; u < Game.context.getHeroes().get(i).getPotions().size(); u++){
+                    Game.context.getHeroes().get(i).getPotions().get(u).addBonusPoints(Game.context.getHeroes().get(i).getPotions().get(u).giveBonus() + Game.context.consumablesRewardPoints);
+                }
+            }
+            for (int u = 0; u < Game.context.getHeroes().get(i).getLembdas().size(); u++){
+                Game.context.getHeroes().get(i).getLembdas().get(u).addBonusPoints(Game.context.getHeroes().get(i).getLembdas().get(u).giveBonus() + Game.context.consumablesRewardPoints);
+            }
+        }
+        Game.context.consumablesRewardPoints++;
+        Game.context.status = Game.Status.START_COMBAT;
+    }
+
+    public static void enhanceQuantityFood(){
+        for (int i = 0; i < Game.context.getHeroes().size(); i++){
+            for (int u = 0; u < Game.context.consumablesRewardQuantity; u++){
+                Game.context.getHeroes().get(i).getLembdas().add(new Food("Lembda", 6,3));
+            }
+        }
+        Game.context.consumablesRewardQuantity++;
+        Game.context.status = Game.Status.START_COMBAT;
+    }
+
+    public static void enhanceQuantityPotions(){
+        for (int i = 0; i < Game.context.getHeroes().size(); i++){
+            for (int u = 0; u < Game.context.consumablesRewardQuantity; u++){
+                Game.context.getHeroes().get(i).getPotions().add(new Potion("Elixir", 6, 2));
+            }
+        }
+        Game.context.consumablesRewardQuantity++;
+        Game.context.status = Game.Status.START_COMBAT;
     }
 
     private void displayTeam(){
@@ -420,6 +468,8 @@ public class Game {
             this.heroes.get(i).displayData();
         }
     }
+
+
 
     private void displayEnemy(){
         for (int i = 0; i < this.enemies.size(); i++){
