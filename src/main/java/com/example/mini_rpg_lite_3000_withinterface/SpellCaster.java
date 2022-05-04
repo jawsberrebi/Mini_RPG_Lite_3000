@@ -49,4 +49,15 @@ public abstract class SpellCaster extends Hero{
     public void addManaPoints(int bonusPoints){
         this.manaPoints += bonusPoints;
     }
+
+    @Override
+    public void enhance(int enhanceBonus){
+        this.weaponDamage += enhanceBonus;
+    }
+
+    public void reduceManaCost(){
+        if(this.costManaPoints > 0){
+            this.costManaPoints--;
+        }
+    }
 }

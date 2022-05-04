@@ -42,4 +42,7 @@ public class Warrior extends Hero{
     public String displayType() {
         return "Warrior";
     }
+
+    @Override
+    public void enhance(int enhanceBonus) {}
 }

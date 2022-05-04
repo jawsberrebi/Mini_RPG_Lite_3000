@@ -22,6 +22,7 @@ public class Game {
     private static int damagesRewardPoints;
     private static int consumablesRewardPoints;
     private static int consumablesRewardQuantity;
+    private static int enhanceBonusPoints;
 
     //Getters/Setters
     public static int getCombatNumber() {
@@ -70,6 +71,7 @@ public class Game {
         Game.context.damagesRewardPoints = 3;
         Game.context.consumablesRewardPoints = 2;
         Game.context.consumablesRewardQuantity = 1;
+        Game.context.enhanceBonusPoints = 2;
 
         Game.context.status = Status.START_COMBAT;
         //Game.context.currentPositionHero = random.nextInt(Game.context.heroes.size());
@@ -322,17 +324,17 @@ public class Game {
                     System.out.println("");
                 }
                 case "Healer" -> {
-                    heroes.add(i, new Healer());
+                    Game.context.heroes.add(i, new Healer());
                     System.out.println("Healer selectionne");
                     System.out.println("");
                 }
                 case "Mage" -> {
-                    heroes.add(i, new Mage());
+                    Game.context.heroes.add(i, new Mage());
                     System.out.println("Mage selectionne");
                     System.out.println("");
                 }
                 case "Warrior" -> {
-                    heroes.add(i, new Warrior());
+                    Game.context.heroes.add(i, new Warrior());
                     System.out.println("Warrior selectionne");
                     System.out.println("");
                 }
@@ -412,23 +414,28 @@ public class Game {
         }
     }
 
-    public static void enhanceArmor(){
+    public static void enhanceArmor(int cursorHero){
+        /*
         for (int i = 0; i < Game.context.getHeroes().size(); i++){
             Game.context.getHeroes().get(i).setArmor(Game.context.getHeroes().get(i).getArmor() + Game.context.armorRewardPoints);
         }
+         */
+        Game.context.getHeroes().get(cursorHero).setArmor(Game.context.getHeroes().get(cursorHero).getArmor() + Game.context.armorRewardPoints);
         Game.context.armorRewardPoints += 2;
-        Game.context.status = Game.Status.START_COMBAT;
     }
 
-    public static void enhanceDamages(){
+    public static void enhanceDamages(int cursorHero){
+        /*
         for (int i = 0; i < Game.context.getHeroes().size(); i++){
             Game.context.getHeroes().get(i).setWeaponDamage(Game.context.getHeroes().get(i).getWeaponDamage() + Game.context.damagesRewardPoints);
         }
+         */
+        Game.context.getHeroes().get(cursorHero).setWeaponDamage(Game.context.getHeroes().get(cursorHero).getWeaponDamage() + Game.context.damagesRewardPoints);
         Game.context.damagesRewardPoints += 3;
-        Game.context.status = Game.Status.START_COMBAT;
     }
 
-    public static void enhanceConsumables(){
+    public static void enhanceConsumables(int cursorHero){
+        /*
         for (int i = 0; i < Game.context.getHeroes().size(); i++){
             if (Game.context.getHeroes().get(i) instanceof SpellCaster){
                 for (int u = 0; u < Game.context.getHeroes().get(i).getPotions().size(); u++){
@@ -439,30 +446,48 @@ public class Game {
                 Game.context.getHeroes().get(i).getLembdas().get(u).addBonusPoints(Game.context.getHeroes().get(i).getLembdas().get(u).giveBonus() + Game.context.consumablesRewardPoints);
             }
         }
+         */
+
+        if (Game.context.getHeroes().get(cursorHero) instanceof SpellCaster){
+            for (int u = 0; u < Game.context.getHeroes().get(cursorHero).getPotions().size(); u++){
+                Game.context.getHeroes().get(cursorHero).getPotions().get(u).addBonusPoints(Game.context.getHeroes().get(cursorHero).getPotions().get(u).giveBonus() + Game.context.consumablesRewardPoints);
+            }
+        }else {
+            for (int u = 0; u < Game.context.getHeroes().get(cursorHero).getLembdas().size(); u++){
+                Game.context.getHeroes().get(cursorHero).getLembdas().get(u).addBonusPoints(Game.context.getHeroes().get(cursorHero).getLembdas().get(u).giveBonus() + Game.context.consumablesRewardPoints);
+            }
+        }
         Game.context.consumablesRewardPoints++;
-        Game.context.status = Game.Status.START_COMBAT;
     }
 
-    public static void enhanceQuantityFood(){
-        for (int i = 0; i < Game.context.getHeroes().size(); i++){
-            for (int u = 0; u < Game.context.consumablesRewardQuantity; u++){
-                Game.context.getHeroes().get(i).getLembdas().add(new Food("Lembda", 6,3));
+    public static void enhanceQuantityFood(int cursorHero){
+        for (int u = 0; u < Game.context.consumablesRewardQuantity; u++){
+            Game.context.getHeroes().get(cursorHero).getLembdas().add(new Food("Lembda", 6,3));
+        }
+        Game.context.consumablesRewardQuantity++;
+    }
+
+    public static void enhanceQuantityPotions(int cursorHero){
+        for (int u = 0; u < Game.context.consumablesRewardQuantity; u++){
+            if(Game.context.getHeroes().get(cursorHero) instanceof SpellCaster){
+                Game.context.getHeroes().get(cursorHero).getPotions().add(new Potion("Elixir", 6, 2));
             }
         }
         Game.context.consumablesRewardQuantity++;
-        Game.context.status = Game.Status.START_COMBAT;
     }
 
-    public static void enhanceQuantityPotions(){
-        for (int i = 0; i < Game.context.getHeroes().size(); i++){
-            for (int u = 0; u < Game.context.consumablesRewardQuantity; u++){
-                Game.context.getHeroes().get(i).getPotions().add(new Potion("Elixir", 6, 2));
-            }
+    public static void enhanceHero(int cursorHero){
+        Game.context.getHeroes().get(cursorHero).enhance(Game.context.enhanceBonusPoints);
+        Game.context.enhanceBonusPoints += 2;
+    }
+
+    public static void reduceManaCost(int cursorHero){
+        if(Game.context.getHeroes().get(cursorHero) instanceof SpellCaster){
+            ((SpellCaster) Game.context.getHeroes().get(cursorHero)).reduceManaCost();
         }
-        Game.context.consumablesRewardQuantity++;
-        Game.context.status = Game.Status.START_COMBAT;
     }
 
+    /*
     private void displayTeam(){
         for (int i = 0; i < this.heroes.size(); i++){
             this.heroes.get(i).displayData();
@@ -563,4 +588,6 @@ public class Game {
             }while ((numberAction < 1) && (numberAction > 2));
         }
     }
+
+     */
 }

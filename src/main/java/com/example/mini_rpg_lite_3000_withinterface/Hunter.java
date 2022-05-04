@@ -60,4 +60,9 @@ public class Hunter extends Hero{
     public String displayType() {
         return "Hunter";
     }
+
+    @Override
+    public void enhance(int enhanceBonus) {
+        this.arrows += enhanceBonus;
+    }
 }

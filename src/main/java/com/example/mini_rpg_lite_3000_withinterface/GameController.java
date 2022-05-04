@@ -66,9 +66,11 @@ public class GameController {
     @FXML
     private Button enhanceQuantityPotionBtn;
     @FXML
-    private Button enhanceQuantifiableWeaponBtn;
-    @FXML
     private Button enhanceHeroBtn;
+    @FXML
+    private Button enhanceSpellBtn;
+    @FXML
+    private Button reduceManaCostBtn;
 
     private boolean resultAttackHero;
 
@@ -78,8 +80,11 @@ public class GameController {
 
     private int indexConsumables;
 
+    private int cursorHeroReward;
+
     @FXML
     public void initialize(){
+        this.cursorHeroReward = 0;
         this.currentHero.setVisible(false);
         this.currentEnemy.setVisible(false);
         this.heroData.setVisible(false);
@@ -90,6 +95,8 @@ public class GameController {
         this.foodBtn.setVisible(false);
         this.potionBtn.setVisible(false);
         this.consumeBtn.setVisible(false);
+        this.enhanceSpellBtn.setVisible(false);
+        this.reduceManaCostBtn.setVisible(false);
         this.whatToDo.setText("Que faire ?");
         hideActions();
         hideActionsAfterVictory();
@@ -174,7 +181,6 @@ public class GameController {
                 this.whatToDo.setText("L'ennemi a attaqué !");
                 this.gameBtn.setText("Continuer le combat");
                 break;
-
             case REWARDS_TIME:
                 hideActions();
                 this.currentHero.setVisible(false);
@@ -184,8 +190,23 @@ public class GameController {
                 this.enemyData.setVisible(false);
                 this.armorImg.setVisible(false);
                 this.whatToDo.setVisible(true);
-                this.whatToDo.setText("Le combat a été gagné ! Que souhaitez-vous faire ?");
-                displayActionsAfterVictory();
+                if(this.cursorHeroReward >= Game.context.getHeroes().size()){
+                    this.cursorHeroReward = 0;
+                    hideActionsAfterVictory();
+                    Game.context.status = Game.Status.START_COMBAT;
+                }else{
+                    this.whatToDo.setText("Le combat a été gagné ! Que souhaitez-vous faire pour " + Game.context.getHeroes().get(this.cursorHeroReward).displayType());
+                    displayActionsAfterVictory();
+                    if (Game.context.getHeroes().get(this.cursorHeroReward) instanceof Hunter){
+                        this.enhanceHeroBtn.setVisible(true);
+                        this.enhanceHeroBtn.setText("Augmenter le nombre de flèches");
+                    }else if(Game.context.getHeroes().get(this.cursorHeroReward) instanceof SpellCaster){
+                        this.enhanceHeroBtn.setVisible(true);
+                        this.enhanceHeroBtn.setText("Améliorer le sort");
+                    }else{
+                        this.enhanceHeroBtn.setVisible(false);
+                    }
+                }
                 break;
             case END_GAME:
                 hideActions();
@@ -361,27 +382,32 @@ public class GameController {
         this.enhanceDamagesBtn.setVisible(true);
         this.enhanceConsumablesBtn.setVisible(true);
         this.enhanceQuantityConsumablesBtn.setVisible(true);
-        this.enhanceQuantifiableWeaponBtn.setVisible(true);
     }
 
     @FXML
     public void handleBtnEnhanceArmor(){
         hideActionsAfterVictory();
-        Game.context.enhanceArmor();
+        Game.context.enhanceArmor(this.cursorHeroReward);
+        this.cursorHeroReward++;
+        Game.context.status = Game.Status.REWARDS_TIME;
         this.gameBtn.setVisible(true);
     }
 
     @FXML
     public void handleBtnEnhanceDamages(){
         hideActionsAfterVictory();
-        Game.context.enhanceDamages();
+        Game.context.enhanceDamages(this.cursorHeroReward);
+        this.cursorHeroReward++;
+        Game.context.status = Game.Status.REWARDS_TIME;
         this.gameBtn.setVisible(true);
     }
 
     @FXML
     public void handleBtnEnhanceConsumables(){
         hideActionsAfterVictory();
-        Game.context.enhanceConsumables();
+        Game.context.enhanceConsumables(this.cursorHeroReward);
+        this.cursorHeroReward++;
+        Game.context.status = Game.Status.REWARDS_TIME;
         this.gameBtn.setVisible(true);
     }
 
@@ -390,10 +416,8 @@ public class GameController {
         hideActionsAfterVictory();
         this.enhanceQuantityFoodBtn.setVisible(true);
         boolean isThereASpellCaster = false;
-        for (int i = 0; i < Game.context.getHeroes().size(); i++){
-            if (Game.context.getHeroes().get(i) instanceof SpellCaster){
-                isThereASpellCaster = true;
-            }
+        if (Game.context.getHeroes().get(this.cursorHeroReward) instanceof SpellCaster){
+            isThereASpellCaster = true;
         }
         if(isThereASpellCaster){
             this.enhanceQuantityPotionBtn.setVisible(true);
@@ -403,42 +427,54 @@ public class GameController {
     @FXML
     public void handleBtnEnhanceQuantityFood(){
         hideActionsAfterVictory();
-        Game.context.enhanceQuantityFood();
+        Game.context.enhanceQuantityFood(this.cursorHeroReward);
+        this.cursorHeroReward++;
+        Game.context.status = Game.Status.REWARDS_TIME;
         this.gameBtn.setVisible(true);
     }
 
     @FXML
     public void handleBtnEnhanceQuantityPotions(){
         hideActionsAfterVictory();
-        Game.context.enhanceQuantityPotions();
+        Game.context.enhanceQuantityPotions(this.cursorHeroReward);
+        this.cursorHeroReward++;
+        Game.context.status = Game.Status.REWARDS_TIME;
         this.gameBtn.setVisible(true);
     }
 
     @FXML
-    public void handleBtnEnhanceQuantifiableWeapon(){
-        hideActionsAfterVictory();
-        this.heroesToHeal.setVisible(true);
-        this.enhanceHeroBtn.setVisible(true);
-        this.heroesToHeal.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
-                indexHeroToHeal = heroesToHeal.getSelectionModel().getSelectedIndex();
-            }
-        });
-    }
-
-    @FXML
     public void handleBtnEnhanceHero(){
-        if (this.indexHeroToHeal >= 0){
-            Game.context.attack(this.indexHeroToHeal);
-            this.heroData.setText(Game.context.getHeroes().get(Game.context.getCurrentPositionHero()).displayData());
-            this.healBtn.setVisible(false);
-            this.enhanceHeroBtn.setVisible(false);
+        hideActionsAfterVictory();
+
+        if (Game.context.getHeroes().get(this.cursorHeroReward) instanceof SpellCaster){
+            this.enhanceSpellBtn.setVisible(true);
+            this.reduceManaCostBtn.setVisible(true);
+        }else {
+            Game.context.enhanceHero(this.cursorHeroReward);
+            this.cursorHeroReward++;
+            Game.context.status = Game.Status.REWARDS_TIME;
             this.gameBtn.setVisible(true);
         }
+        this.enhanceHeroBtn.setVisible(false);
     }
 
+    public void handleBtnEnhanceSpell(){
+        this.enhanceSpellBtn.setVisible(false);
+        this.reduceManaCostBtn.setVisible(false);
+        Game.context.enhanceHero(this.cursorHeroReward);
+        this.cursorHeroReward++;
+        Game.context.status = Game.Status.REWARDS_TIME;
+        this.gameBtn.setVisible(true);
+    }
 
+    public void handleBtnReduceManaCost(){
+        this.enhanceSpellBtn.setVisible(false);
+        this.reduceManaCostBtn.setVisible(false);
+        Game.context.reduceManaCost(this.cursorHeroReward);
+        this.cursorHeroReward++;
+        Game.context.status = Game.Status.REWARDS_TIME;
+        this.gameBtn.setVisible(true);
+    }
 
     private void hideActionsAfterVictory(){
         this.enhanceHeroBtn.setVisible(false);
@@ -448,6 +484,5 @@ public class GameController {
         this.enhanceQuantityConsumablesBtn.setVisible(false);
         this.enhanceQuantityFoodBtn.setVisible(false);
         this.enhanceQuantityPotionBtn.setVisible(false);
-        this.enhanceQuantifiableWeaponBtn.setVisible(false);
     }
 }

@@ -106,4 +106,6 @@ public abstract class Hero {
 
     }
     public abstract String displayType();
+
+    public abstract void enhance(int enhanceBonus);
 }
