@@ -14,10 +14,10 @@ public abstract class Hero {
 
     public Hero(){
         this.lembdas = new ArrayList<>();
-        this.lembdas.add(new Food("Lembda", 2));
-        this.lembdas.add(new Food("Lembda", 2));
-        this.lembdas.add(new Food("Lembda", 2));
-        this.lembdas.add(new Food("Lembda", 4, 2));
+        this.lembdas.add(new Food("Lembas", 2));
+        this.lembdas.add(new Food("Lembas", 2));
+        this.lembdas.add(new Food("Lembas", 2));
+        this.lembdas.add(new Food("Lembas", 4, 2));
     }
 
 

@@ -8,96 +8,96 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="674.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mini_rpg_lite_3000_withinterface.GameController">
+<AnchorPane prefHeight="500.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mini_rpg_lite_3000_withinterface.GameController">
    <children>
-      <Button fx:id="gameBtn" layoutX="175.0" layoutY="349.0" mnemonicParsing="false" onMouseClicked="#updateBtn" prefHeight="26.0" prefWidth="250.0" text="Nouveau combat" />
-      <Label layoutX="191.0" layoutY="21.0" text="Combat N°" textAlignment="CENTER">
+      <Button fx:id="gameBtn" layoutX="348.0" layoutY="442.0" mnemonicParsing="false" onMouseClicked="#updateBtn" prefHeight="26.0" prefWidth="250.0" text="Nouveau combat" />
+      <Label layoutX="361.0" layoutY="15.0" text="Combat N°" textAlignment="CENTER">
          <font>
             <Font size="30.0" />
          </font>
       </Label>
-      <Label fx:id="combatNumberString" layoutX="338.0" layoutY="21.0" text="Label" textAlignment="CENTER">
+      <Label fx:id="combatNumberString" layoutX="508.0" layoutY="15.0" text="Label" textAlignment="CENTER">
          <font>
             <Font size="30.0" />
          </font>
       </Label>
-      <Label fx:id="currentHero" layoutX="20.0" layoutY="88.0" text="Label" textFill="#001eff">
+      <Label fx:id="currentHero" layoutX="167.0" layoutY="91.0" text="Label" textFill="#001eff">
          <font>
             <Font size="40.0" />
          </font>
       </Label>
-      <Label fx:id="currentEnemy" layoutX="547.0" layoutY="88.0" text="Label" textFill="#ff0404">
+      <Label fx:id="currentEnemy" layoutX="687.0" layoutY="88.0" text="Label" textFill="#ff0404">
          <font>
             <Font size="40.0" />
          </font>
       </Label>
-      <Label layoutX="281.0" layoutY="95.0" text="Vs." textAlignment="CENTER">
+      <Label layoutX="451.0" layoutY="89.0" text="Vs." textAlignment="CENTER">
          <font>
             <Font size="30.0" />
          </font>
       </Label>
-      <Button fx:id="attackBtn" layoutX="213.0" layoutY="233.0" mnemonicParsing="false" onMouseClicked="#handleBtnAttack" prefHeight="26.0" prefWidth="170.0" text="Attaquer" />
-      <Button fx:id="defendBtn" layoutX="213.0" layoutY="269.0" mnemonicParsing="false" onAction="#handleBtnDefend" prefHeight="26.0" prefWidth="170.0" text="Se défendre" />
-      <Button fx:id="useConsumableBtn" layoutX="213.0" layoutY="304.0" mnemonicParsing="false" onAction="#handleBtnUseConsumable" prefHeight="26.0" prefWidth="170.0" text="Utiliser un consommable" />
-      <Label fx:id="whatToDo" layoutX="262.0" layoutY="189.0" text="Que faire ?">
+      <Button fx:id="attackBtn" layoutX="386.0" layoutY="326.0" mnemonicParsing="false" onMouseClicked="#handleBtnAttack" prefHeight="26.0" prefWidth="170.0" text="Attaquer" />
+      <Button fx:id="defendBtn" layoutX="386.0" layoutY="362.0" mnemonicParsing="false" onAction="#handleBtnDefend" prefHeight="26.0" prefWidth="170.0" text="Se défendre" />
+      <Button fx:id="useConsumableBtn" layoutX="386.0" layoutY="397.0" mnemonicParsing="false" onAction="#handleBtnUseConsumable" prefHeight="26.0" prefWidth="170.0" text="Utiliser un consommable" />
+      <Label fx:id="whatToDo" alignment="CENTER" layoutX="246.0" layoutY="148.0" prefHeight="46.0" prefWidth="438.0" text="Que faire ?" textAlignment="CENTER">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <Label fx:id="heroData" layoutX="53.0" layoutY="163.0" text="Label" />
-      <Label fx:id="enemyData" layoutX="580.0" layoutY="163.0" text="Label" textAlignment="RIGHT" />
-      <Label fx:id="actualState" layoutX="286.0" layoutY="154.0">
+      <Label fx:id="heroData" layoutX="167.0" layoutY="166.0" text="Label" />
+      <Label fx:id="enemyData" layoutX="720.0" layoutY="163.0" text="Label" textAlignment="RIGHT" />
+      <Label fx:id="actualState" alignment="CENTER" layoutX="274.0" layoutY="213.0" prefHeight="27.0" prefWidth="382.0">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <ListView fx:id="heroesToHeal" layoutX="213.0" layoutY="157.0" prefHeight="175.0" prefWidth="170.0" />
-      <Button fx:id="healBtn" layoutX="215.0" layoutY="349.0" mnemonicParsing="false" onAction="#handleBtnHeal" prefHeight="26.0" prefWidth="170.0" text="Guérir" />
-      <ImageView fx:id="armorImg" fitHeight="26.0" fitWidth="28.0" layoutX="114.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true">
+      <ListView fx:id="heroesToHeal" layoutX="386.0" layoutY="250.0" prefHeight="175.0" prefWidth="170.0" />
+      <Button fx:id="healBtn" layoutX="388.0" layoutY="442.0" mnemonicParsing="false" onAction="#handleBtnHeal" prefHeight="26.0" prefWidth="170.0" text="Guérir" />
+      <ImageView fx:id="armorImg" fitHeight="26.0" fitWidth="28.0" layoutX="261.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../images/armor.png" />
          </image>
       </ImageView>
-      <Button fx:id="foodBtn" layoutX="212.0" layoutY="232.0" mnemonicParsing="false" onAction="#handleBtnFood" prefHeight="26.0" prefWidth="170.0" text="Manger de la nourriture" />
-      <Button fx:id="potionBtn" layoutX="213.0" layoutY="270.0" mnemonicParsing="false" onAction="#handleBtnPotion" prefHeight="26.0" prefWidth="170.0" text="Boire une potion" />
-      <ListView fx:id="consumables" layoutX="213.0" layoutY="157.0" prefHeight="175.0" prefWidth="170.0" />
-      <Button fx:id="consumeBtn" layoutX="215.0" layoutY="349.0" mnemonicParsing="false" onAction="#handleBtnConsume" prefHeight="26.0" prefWidth="170.0" text="Consommer" />
-      <Button fx:id="enhanceArmorBtn" layoutX="213.0" layoutY="157.0" mnemonicParsing="false" onAction="#handleBtnEnhanceArmor" prefHeight="27.0" prefWidth="170.0" text="Augmenter les points d'armure">
+      <Button fx:id="foodBtn" layoutX="385.0" layoutY="325.0" mnemonicParsing="false" onAction="#handleBtnFood" prefHeight="26.0" prefWidth="170.0" text="Manger de la nourriture" />
+      <Button fx:id="potionBtn" layoutX="386.0" layoutY="363.0" mnemonicParsing="false" onAction="#handleBtnPotion" prefHeight="26.0" prefWidth="170.0" text="Boire une potion" />
+      <ListView fx:id="consumables" layoutX="386.0" layoutY="250.0" prefHeight="175.0" prefWidth="170.0" />
+      <Button fx:id="consumeBtn" layoutX="388.0" layoutY="442.0" mnemonicParsing="false" onAction="#handleBtnConsume" prefHeight="26.0" prefWidth="170.0" text="Consommer" />
+      <Button fx:id="enhanceArmorBtn" layoutX="386.0" layoutY="250.0" mnemonicParsing="false" onAction="#handleBtnEnhanceArmor" prefHeight="27.0" prefWidth="170.0" text="Augmenter les points d'armure">
          <font>
             <Font size="11.0" />
          </font>
       </Button>
-      <Button fx:id="enhanceDamagesBtn" layoutX="213.0" layoutY="193.0" mnemonicParsing="false" onAction="#handleBtnEnhanceDamages" prefHeight="26.0" prefWidth="170.0" text="Augmenter les points de dégât">
+      <Button fx:id="enhanceDamagesBtn" layoutX="386.0" layoutY="286.0" mnemonicParsing="false" onAction="#handleBtnEnhanceDamages" prefHeight="26.0" prefWidth="170.0" text="Augmenter les points de dégât">
          <font>
             <Font size="11.0" />
          </font>
       </Button>
-      <Button fx:id="enhanceConsumablesBtn" layoutX="212.0" layoutY="228.0" mnemonicParsing="false" onAction="#handleBtnEnhanceConsumables" prefHeight="26.0" prefWidth="170.0" text="Augmenter l'efficacité des consommables">
+      <Button fx:id="enhanceConsumablesBtn" layoutX="385.0" layoutY="321.0" mnemonicParsing="false" onAction="#handleBtnEnhanceConsumables" prefHeight="26.0" prefWidth="170.0" text="Augmenter l'efficacité des consommables">
          <font>
             <Font size="8.0" />
          </font>
       </Button>
-      <Button fx:id="enhanceQuantityConsumablesBtn" layoutX="213.0" layoutY="263.0" mnemonicParsing="false" onAction="#handleBtnEnhanceQuantityConsumables" prefHeight="26.0" prefWidth="170.0" text="Obtenir plus de consommables">
+      <Button fx:id="enhanceQuantityConsumablesBtn" layoutX="386.0" layoutY="356.0" mnemonicParsing="false" onAction="#handleBtnEnhanceQuantityConsumables" prefHeight="26.0" prefWidth="170.0" text="Obtenir plus de consommables">
          <font>
             <Font size="11.0" />
          </font>
       </Button>
-      <Button fx:id="enhanceHeroBtn" layoutX="212.0" layoutY="296.0" mnemonicParsing="false" onAction="#handleBtnEnhanceHero" prefHeight="26.0" prefWidth="170.0" text="Augmenter l'efficacité d'un héro">
+      <Button fx:id="enhanceHeroBtn" layoutX="385.0" layoutY="389.0" mnemonicParsing="false" onAction="#handleBtnEnhanceHero" prefHeight="26.0" prefWidth="170.0" text="Augmenter l'efficacité d'un héro">
          <font>
             <Font size="11.0" />
          </font>
       </Button>
-      <Button fx:id="enhanceQuantityFoodBtn" layoutX="213.0" layoutY="229.0" mnemonicParsing="false" onAction="#handleBtnEnhanceQuantityFood" prefHeight="26.0" prefWidth="170.0" text="Augmenter la quantité de nourriture">
+      <Button fx:id="enhanceQuantityFoodBtn" layoutX="386.0" layoutY="322.0" mnemonicParsing="false" onAction="#handleBtnEnhanceQuantityFood" prefHeight="26.0" prefWidth="170.0" text="Augmenter la quantité de nourriture">
          <font>
             <Font size="9.0" />
          </font>
       </Button>
-      <Button fx:id="enhanceQuantityPotionBtn" layoutX="213.0" layoutY="263.0" mnemonicParsing="false" onAction="#handleBtnEnhanceQuantityPotions" prefHeight="26.0" prefWidth="170.0" text="Augmenter le nombre de potions">
+      <Button fx:id="enhanceQuantityPotionBtn" layoutX="386.0" layoutY="356.0" mnemonicParsing="false" onAction="#handleBtnEnhanceQuantityPotions" prefHeight="26.0" prefWidth="170.0" text="Augmenter le nombre de potions">
          <font>
             <Font size="10.0" />
          </font>
       </Button>
-      <Button fx:id="enhanceSpellBtn" layoutX="214.0" layoutY="194.0" mnemonicParsing="false" onAction="#handleBtnEnhanceSpell" prefHeight="26.0" prefWidth="170.0" text="Améliorer le sort" />
-      <Button fx:id="reduceManaCostBtn" layoutX="214.0" layoutY="228.0" mnemonicParsing="false" onAction="#handleBtnReduceManaCost" prefHeight="26.0" prefWidth="170.0" text="Réduire le coût du mana" />
+      <Button fx:id="enhanceSpellBtn" layoutX="387.0" layoutY="287.0" mnemonicParsing="false" onAction="#handleBtnEnhanceSpell" prefHeight="26.0" prefWidth="170.0" text="Améliorer le sort" />
+      <Button fx:id="reduceManaCostBtn" layoutX="387.0" layoutY="321.0" mnemonicParsing="false" onAction="#handleBtnReduceManaCost" prefHeight="26.0" prefWidth="170.0" text="Réduire le coût du mana" />
    </children>
 </AnchorPane>

@@ -462,7 +462,7 @@ public class Game {
 
     public static void enhanceQuantityFood(int cursorHero){
         for (int u = 0; u < Game.context.consumablesRewardQuantity; u++){
-            Game.context.getHeroes().get(cursorHero).getLembdas().add(new Food("Lembda", 6,3));
+            Game.context.getHeroes().get(cursorHero).getLembdas().add(new Food("Lembas", 6,3));
         }
         Game.context.consumablesRewardQuantity++;
     }

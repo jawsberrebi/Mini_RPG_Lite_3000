@@ -8,7 +8,7 @@ public class Boss extends Enemy{
 
     @Override
     public void attack(Hero hero) {
-        hero.losingLife(20);
+        hero.losingLife(8);
     }
 
     @Override
