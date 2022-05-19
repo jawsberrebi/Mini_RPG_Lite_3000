@@ -230,30 +230,31 @@ public class GameController {
         }
     }
 
+    //Lorsque l'on clique le bouton "Attaquer", cette méthode s'exécute :
     @FXML
     public void handleBtnAttack(){
-        this.armorImg.setVisible(Game.context.isArmorOn());
-        if (Game.context.status == Game.Status.HERO_TURN){
-            if (Game.context.getHeroes().get(Game.context.getCurrentPositionHero()) instanceof Healer){
-                healerAttack();
+        this.armorImg.setVisible(Game.context.isArmorOn());                                                                             //Si l'armure a été activée, l'image reste affichée
+        if (Game.context.status == Game.Status.HERO_TURN){                                                                              //On s'assure qu'il s'agit bien du tour du joueur avec le Status
+            if (Game.context.getHeroes().get(Game.context.getCurrentPositionHero()) instanceof Healer){                                 //S'il s'agit d'attaquer avec le healer, l'attaque sera différente
+                healerAttack();                                                                                                         //Si c'est le cas, exécution de la fonction concernée
             }else {
-                this.resultAttackHero = Game.context.attack(-1);
+                this.resultAttackHero = Game.context.attack(-1);                                                          //Sinon le héro attaque
             }
-            if (!this.resultAttackHero){
+            if (!this.resultAttackHero){                                                                                                //Si l'attaque n'a pas tué l'ennemi, on actualise ses informations
                 this.enemyData.setText(Game.context.getEnemies().get(Game.context.getCurrentPositionEnemy()).displayData());
             }
-            this.heroData.setText(Game.context.getHeroes().get(Game.context.getCurrentPositionHero()).displayData());
+            this.heroData.setText(Game.context.getHeroes().get(Game.context.getCurrentPositionHero()).displayData());                   //Actualisation des informations du héros après son attaque
             hideActions();
 
-            if (this.resultAttackHero){
+            if (this.resultAttackHero){                                                                                                 //Si l'attaque a marché, on affiche des textes différents à l'écran et on signal que l'ennemi est mort
                 this.gameBtn.setText("Attaque du prochain ennemi");
                 this.currentEnemy.setText("L'ennemi est mort !");
                 this.enemyData.setVisible(false);
             }else {
                 this.gameBtn.setText("Attaque de l'ennemi");
             }
-            refreshListHeroesToHeal();
-            if (Game.context.getHeroes().get(Game.context.getCurrentPositionHero()) instanceof Healer){
+            refreshListHeroesToHeal();                                                                                                  //Actualisation de la liste des héros à guérir, utile après l'attaque d'un healer
+            if (Game.context.getHeroes().get(Game.context.getCurrentPositionHero()) instanceof Healer){                                 //Dans le cas d'un healer qui attaque (guéris), on invoque le bouton de jeu pour continuer la partie
                 this.gameBtn.setVisible(false);
             }else{
                 this.gameBtn.setVisible(true);
@@ -261,6 +262,7 @@ public class GameController {
         }
     }
 
+    //Cette méthode est exécutée lors du clic sur le bouton "défendre", elle sert à activer l'armure sur le héros actif
     @FXML
     public void handleBtnDefend(){
         Game.context.defend();
@@ -269,37 +271,42 @@ public class GameController {
         this.gameBtn.setVisible(true);
     }
 
+    //Cette méthode est exécutée lors du clic sur le bouton "Utiliser un consommable"
     @FXML
     public void handleBtnUseConsumable(){
         hideActions();
-        if (Game.context.getHeroes().get(Game.context.getCurrentPositionHero()) instanceof SpellCaster){
+        if (Game.context.getHeroes().get(Game.context.getCurrentPositionHero()) instanceof SpellCaster){                                //Dans le cas d'un healer ou d'un mage, on rend disponible les potions et la nourriture, le healer et le mage sont les seuls à pouvoir consommer des potions
             this.foodBtn.setVisible(true);
             this.potionBtn.setVisible(true);
         }else {
-            handleBtnFood();
+            handleBtnFood();                                                                                                            //Dans le cas inverse, on passe directement à la méthode qui affiche la nourriture à consommer, les autres héros ne peuvent que consommer de la nourriture
         }
     }
 
+    //Lorsqu'on clique sur le bouton "Manger de la nourriture" dans le cas d'un healer ou d'un mage, cette méthode s'exécute (elle est automatique pour les autres types de héros comme dit précédemment)
     @FXML
     public void handleBtnFood(){
         this.useConsumableBtn.setVisible(false);
         this.foodBtn.setVisible(false);
         this.potionBtn.setVisible(false);
+        //Actualisation de la liste de consommables du héros disponible
         this.consumables.getItems().clear();
         for (int i = 0; i < Game.context.getHeroes().get(Game.context.getCurrentPositionHero()).getLembdas().size(); i++){
             this.consumables.getItems().add(Game.context.getHeroes().get(Game.context.getCurrentPositionHero()).getLembdas().get(i).display());
         }
-        this.consumables.setVisible(true);
+        this.consumables.setVisible(true);                                                                                           //Affichage de la liste de nourriture
         this.consumeBtn.setText("Manger");
         this.consumeBtn.setVisible(true);
-        consumablesSelection();
+        consumablesSelection();                                                                                                     //Méthode gérant la sélection de la nourriture dans la liste
     }
 
+    //Dans le cas du healer ou du mage, cette méthode s'exécute au clic sur le bouton "boire une potion"
     @FXML
     public void handleBtnPotion(){
         this.useConsumableBtn.setVisible(false);
         this.foodBtn.setVisible(false);
         this.potionBtn.setVisible(false);
+        //De la même manière que pour la nourriture, on actualise la liste des potions du héros
         this.consumables.getItems().clear();
         for (int i = 0; i < Game.context.getHeroes().get(Game.context.getCurrentPositionHero()).getPotions().size(); i++){
             this.consumables.getItems().add(Game.context.getHeroes().get(Game.context.getCurrentPositionHero()).getPotions().get(i).display());
@@ -307,28 +314,30 @@ public class GameController {
         this.consumables.setVisible(true);
         this.consumeBtn.setText("Boire");
         this.consumeBtn.setVisible(true);
-        consumablesSelection();
+        consumablesSelection();                                                                                                    //De la même manière que pour la liste de nourriture, cette méthode gère la sélection de la potion
     }
 
+    //Lorsque l'on clique sur le bouton "consommer", cette méthode s'exécute
     @FXML
     public void handleBtnConsume(){
         consumablesSelection();
-        if(this.consumeBtn.getText().equals("Manger")){
-            Game.context.getHeroes().get(Game.context.getCurrentPositionHero()).useConsumable(this.indexConsumables, true);
+        if(this.consumeBtn.getText().equals("Manger")){                                                                           //Dans les méthodes précédentes, on modifie le texte du bouton de consommation que l'on affiche (selon si l'on a sélectionné "manger de la nourriture" ou "boire une potion")
+            Game.context.getHeroes().get(Game.context.getCurrentPositionHero()).useConsumable(this.indexConsumables, true);//Si nous somme dans le cas où "Manger" est inscrit sur le bouton, le héros consomme sa nourriture
         }else {
-            Game.context.getHeroes().get(Game.context.getCurrentPositionHero()).useConsumable(this.indexConsumables, false);
+            Game.context.getHeroes().get(Game.context.getCurrentPositionHero()).useConsumable(this.indexConsumables, false);//Sinon, dans le cas où "Boire" est inscrit sur le bouton, le healer ou mage boit sa potion
         }
-        Game.context.status = Game.Status.ENEMY_TURN;
+        Game.context.status = Game.Status.ENEMY_TURN;                                                                             //Après consommation, le statut change pour le tour de l'ennemi
         this.consumables.setVisible(false);
         this.consumeBtn.setVisible(false);
-        this.heroData.setText(Game.context.getHeroes().get(Game.context.getCurrentPositionHero()).displayData());
+        this.heroData.setText(Game.context.getHeroes().get(Game.context.getCurrentPositionHero()).displayData());                 //Actualisation des informations du joueur
         this.gameBtn.setVisible(true);
     }
 
+    //Cette méthode est automatique exécutée dans le cas du healer si l'on clique sur le bouton "Attaquer", comme vu précédemment
     private void healerAttack(){
         this.heroesToHeal.setVisible(true);
         this.healBtn.setVisible(true);
-        this.heroesToHeal.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+        this.heroesToHeal.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {                 //Évènement pour gérer la sélection du héros à guérir
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
                 indexHeroToHeal = heroesToHeal.getSelectionModel().getSelectedIndex();
@@ -336,18 +345,20 @@ public class GameController {
         });
     }
 
+    //Cette méthode est exécutée si l'on clique sur le bouton "guérir" dans le cas de l'attaque d'un healer
     @FXML
-    public void handleBtnHeal(){
+    private void handleBtnHeal(){
         if (this.indexHeroToHeal >= 0){
-            Game.context.attack(this.indexHeroToHeal);
-            this.heroData.setText(Game.context.getHeroes().get(Game.context.getCurrentPositionHero()).displayData());
+            Game.context.attack(this.indexHeroToHeal);                                                                          //Pour l'attaque du healer, on passe l'index de la liste des héros actuelle pour que le healer guérisse le héros choisi par le joueur
+            this.heroData.setText(Game.context.getHeroes().get(Game.context.getCurrentPositionHero()).displayData());           //Actualisation des informations du héros
             this.healBtn.setVisible(false);
             this.heroesToHeal.setVisible(false);
             this.gameBtn.setVisible(true);
-            Game.context.status = Game.Status.ENEMY_TURN;
+            Game.context.status = Game.Status.ENEMY_TURN;                                                                       //Après l'attaque du healer, c'est le tour de l'ennemi, donc mise à jour du statut
         }
     }
 
+    //Méthode permettant d'afficher les boutons que le joueur peut activer lors de son tour : "attaquer", "défendre" et "utiliser un consommable"
     private void displayActions(){
         this.whatToDo.setVisible(true);
         this.whatToDo.setText("Que faire ?");
@@ -356,6 +367,7 @@ public class GameController {
         this.useConsumableBtn.setVisible(true);
     }
 
+    //Méthode permettant de masquer les boutons "attaquer", "défendre" et "utiliser un consommable", méthode activée quand ce n'est pas au tour du joueur
     private void hideActions(){
         this.whatToDo.setVisible(false);
         this.attackBtn.setVisible(false);
@@ -363,13 +375,15 @@ public class GameController {
         this.useConsumableBtn.setVisible(false);
     }
 
+    //Méthode actualisant la liste de héros encore vivants que le healer peut guérir
     private void refreshListHeroesToHeal(){
-        this.heroesToHeal.getItems().clear();
+        this.heroesToHeal.getItems().clear();                                                                                  //On supprime tout dans un premier temps
         for (int i = 0; i < Game.context.getHeroes().size(); i++){
-            this.heroesToHeal.getItems().add(Game.context.getHeroes().get(i).displayType());
+            this.heroesToHeal.getItems().add(Game.context.getHeroes().get(i).displayType());                                   //Puis on recollecte les héros à partir de la liste d'origine
         }
     }
 
+    //Méthode avec évènement permettant de gérant la sélection du consommable à consommer
     private void consumablesSelection(){
         this.consumables.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -379,43 +393,48 @@ public class GameController {
         });
     }
 
+    //Méthode s'exécutant après une victoire de combat, permettant aux boutons de récompense de s'afficher. On peut :
     private void displayActionsAfterVictory(){
-        this.enhanceArmorBtn.setVisible(true);
-        this.enhanceDamagesBtn.setVisible(true);
-        this.enhanceConsumablesBtn.setVisible(true);
-        this.enhanceQuantityConsumablesBtn.setVisible(true);
+        this.enhanceArmorBtn.setVisible(true);                                                                                  //Améliorer l'armure du personnage
+        this.enhanceDamagesBtn.setVisible(true);                                                                                //Améliorer ses points de dégât
+        this.enhanceConsumablesBtn.setVisible(true);                                                                            //Améliorer les points (de vie et de mana) que procurent les consommables
+        this.enhanceQuantityConsumablesBtn.setVisible(true);                                                                    //Augmenter sa quantité de consommables
     }
 
+    //Méthode s'exécutant après un clic sur le bouton "améliorer l'armure"
     @FXML
-    public void handleBtnEnhanceArmor(){
+    private void handleBtnEnhanceArmor(){
         hideActionsAfterVictory();
-        Game.context.enhanceArmor(this.cursorHeroReward);
-        this.cursorHeroReward++;
-        Game.context.status = Game.Status.REWARDS_TIME;
+        Game.context.enhanceArmor(this.cursorHeroReward);                                                                       //Amélioration de l'amure
+        this.cursorHeroReward++;                                                                                                //Après chaque récompense attribuée à un personnage, le curseur parcourant la liste des héros se déplace au héros suivant à récompenser
+        Game.context.status = Game.Status.REWARDS_TIME;                                                                         //On est toujours dans le moment d'attribution de récompenses
         this.gameBtn.setText("Continuer le jeu");
         this.gameBtn.setVisible(true);
     }
 
+    //Méthode s'exécutant après un clic sur le bouton "améliorer les dégâts "
     @FXML
-    public void handleBtnEnhanceDamages(){
+    private void handleBtnEnhanceDamages(){
         hideActionsAfterVictory();
-        Game.context.enhanceDamages(this.cursorHeroReward);
-        this.cursorHeroReward++;
-        Game.context.status = Game.Status.REWARDS_TIME;
+        Game.context.enhanceDamages(this.cursorHeroReward);                                                                     //On améliore les dégâts de l'arme du héros
+        this.cursorHeroReward++;                                                                                                //Après chaque récompense attribuée à un personnage, le curseur parcourant la liste des héros se déplace au héros suivant à récompenser
+        Game.context.status = Game.Status.REWARDS_TIME;                                                                         //On est toujours dans le moment d'attribution de récompenses
         this.gameBtn.setText("Continuer le jeu");
         this.gameBtn.setVisible(true);
     }
 
+    //Méthode s'exécutant après un clic sur le bouton "améliorer les consommables"
     @FXML
-    public void handleBtnEnhanceConsumables(){
+    private void handleBtnEnhanceConsumables(){
         hideActionsAfterVictory();
-        Game.context.enhanceConsumables(this.cursorHeroReward);
-        this.cursorHeroReward++;
-        Game.context.status = Game.Status.REWARDS_TIME;
+        Game.context.enhanceConsumables(this.cursorHeroReward);                                                                 //On augmente les points de vie (et de mana, dans le cas d'un mage ou d'un healer) que confèrent les consommables
+        this.cursorHeroReward++;                                                                                                //Après chaque récompense attribuée à un personnage, le curseur parcourant la liste des héros se déplace au héros suivant à récompenser
+        Game.context.status = Game.Status.REWARDS_TIME;                                                                         //On est toujours dans le moment d'attribution de récompenses
         this.gameBtn.setText("Continuer le jeu");
         this.gameBtn.setVisible(true);
     }
 
+    //Méthode s'exécutant après un clic sur le bouton "augmenter le nombre de consommables"
     @FXML
     public void handleBtnEnhanceQuantityConsumables(){
         hideActionsAfterVictory();

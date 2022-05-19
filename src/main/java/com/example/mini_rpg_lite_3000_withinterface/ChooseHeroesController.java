@@ -47,9 +47,7 @@ public class ChooseHeroesController implements Initializable {
                     selectedHeroes.getItems().add(currentHero);
                     countHeroes++;
                 }
-
             }
-
         });
     }
 
