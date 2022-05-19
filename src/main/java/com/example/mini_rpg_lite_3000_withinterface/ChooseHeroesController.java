@@ -13,7 +13,7 @@ import java.util.ResourceBundle;
 
 public class ChooseHeroesController implements Initializable {
     @FXML
-    private ListView<String> proposedHeroes = new ListView<>();
+    public ListView<String> proposedHeroes = new ListView<>();
     @FXML
     private ListView<String> selectedHeroes = new ListView<>();
 
@@ -26,12 +26,12 @@ public class ChooseHeroesController implements Initializable {
     @FXML
     protected void handleBtnPlay() throws Exception{
         if (this.countHeroes == this.numberOfHeroes){
-            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("game.fxml"));
-            HelloApplication.setNumberOfHeroes(this.numberOfHeroes);
-            HelloApplication.setSelectedHeroes(this.selectedHeroes);
+            FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("game.fxml"));
+            Application.setNumberOfHeroes(this.numberOfHeroes);
+            Application.setSelectedHeroes(this.selectedHeroes);
             Scene scene = new Scene(fxmlLoader.load());
-            HelloApplication.stage.setScene(scene);
-            HelloApplication.stage.show();
+            Application.stage.setScene(scene);
+            Application.stage.show();
         }
     }
 

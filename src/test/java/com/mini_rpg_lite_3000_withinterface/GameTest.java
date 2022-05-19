@@ -1,27 +1,33 @@
 package com.mini_rpg_lite_3000_withinterface;
 
 import com.example.mini_rpg_lite_3000_withinterface.*;
-import javafx.scene.control.ListView;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameTest {
-
-    //Si aucun joueur n’est en vie, on a perdu
     @Test
-    public void perduSiAucunJoueurEnVie(){
-        String[] heroesNames = {"Hunter", "Warrior", "Mage"};
-        ListView<String> heroesList = new ListView<>();
-        heroesList.getItems().addAll(heroesNames);
+    //L'attribution de récompense fonctionne bien après une victoire
+    public void attributionRecompenses(){
         Game game = new Game();
-        game.createHeroGroup(3, heroesList);
+        Game.playGame();
+        List<Hero> heroes = new ArrayList<>();
+        heroes.add(new Hunter());
+        heroes.add(new Warrior());
+        heroes.add(new Mage());
+        Game.setHeroes(heroes);
+        game.generateCombat();
+        Game.attack(1);
+        assertEquals(Game.Status.REWARDS_TIME, Game.status);
+    }
 
-        Boss boss = new Boss(10);
+    @Test
+    //Si aucun joueur n’est en vie, on a perdu
+    public void perduSiAucunJoueurEnVie(){
 
-        game.attackEnemy();
 
     }
 

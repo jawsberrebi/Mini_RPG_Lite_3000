@@ -3,8 +3,6 @@ package com.example.mini_rpg_lite_3000_withinterface;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -101,8 +99,8 @@ public class GameController {
         this.whatToDo.setText("Que faire ?");
         hideActions();
         hideActionsAfterVictory();
-        System.out.println(HelloApplication.getNumberOfHeroes());
-        Game.createHeroGroup(HelloApplication.getNumberOfHeroes(), HelloApplication.getSelectedHeroes());
+        System.out.println(Application.getNumberOfHeroes());
+        Game.createHeroGroup(Application.getNumberOfHeroes(), Application.getSelectedHeroes());
         Game.playGame();
         this.combatNumber = 0;
         this.combatNumberString.setText(Integer.toString(this.combatNumber));
@@ -434,7 +432,8 @@ public class GameController {
         this.gameBtn.setVisible(true);
     }
 
-    //Méthode s'exécutant après un clic sur le bouton "augmenter le nombre de consommables"
+    //Méthode s'exécutant après un clic sur le bouton "augmenter le nombre de consommables". Ici on affiche le boutton
+    //"Augmenter la nourriture" que dans le cas où on est en présence d'un mage ou d'un healer.
     @FXML
     public void handleBtnEnhanceQuantityConsumables(){
         hideActionsAfterVictory();
@@ -448,16 +447,18 @@ public class GameController {
         }
     }
 
+    //Méthode servant à améliorer les points de vie que confère la nourriture
     @FXML
     public void handleBtnEnhanceQuantityFood(){
         hideActionsAfterVictory();
-        Game.context.enhanceQuantityFood(this.cursorHeroReward);
-        this.cursorHeroReward++;
-        Game.context.status = Game.Status.REWARDS_TIME;
+        Game.context.enhanceQuantityFood(this.cursorHeroReward);                                                                    // On augmente le nombre de points de vie que donne la nourriture
+        this.cursorHeroReward++;                                                                                                    // Après chaque récompense attribuée à un personnage, le curseur parcourant la liste des héros se déplace au héros suivant à récompenser
+        Game.context.status = Game.Status.REWARDS_TIME;                                                                             // On est toujours dans le moment d'attribution de récompenses
         this.gameBtn.setText("Continuer le jeu");
         this.gameBtn.setVisible(true);
     }
 
+    //Ideme pour le cas des potions : on augmente le nombre de points de mana que confèrent les potions
     @FXML
     public void handleBtnEnhanceQuantityPotions(){
         hideActionsAfterVictory();
@@ -505,6 +506,7 @@ public class GameController {
         this.gameBtn.setVisible(true);
     }
 
+    //Cette méthode cache les boutons de récompenses (dans le cas de la victoire d'un combat)
     private void hideActionsAfterVictory(){
         this.enhanceHeroBtn.setVisible(false);
         this.enhanceArmorBtn.setVisible(false);

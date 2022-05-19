@@ -5,9 +5,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class HeroTest {
-
-    //L'attribution de récompense fonctionne bien après une victoire
-
     @Test
     //On inflige bien les dégâts dans la bonne fourchette de dégâts
     public void infligeDegats(){

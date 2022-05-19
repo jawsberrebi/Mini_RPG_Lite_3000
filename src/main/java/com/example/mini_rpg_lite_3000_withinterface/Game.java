@@ -33,6 +33,10 @@ public class Game {
         return heroes;
     }
 
+    public static void setHeroes(List<Hero> heroes) {
+        Game.heroes = heroes;
+    }
+
     public List<Enemy> getEnemies() {
         return enemies;
     }
@@ -142,10 +146,10 @@ public class Game {
             return false;
         }else{
             Game.context.heroes.get(Game.context.currentPositionHero).attack(Game.context.enemies.get(Game.context.currentPositionEnemy), null);
+            System.out.println("fff");
             if (Game.context.enemies.get(Game.context.currentPositionEnemy).isDead()){
                 Game.context.enemies.remove(Game.context.currentPositionEnemy);
                 if (Game.context.enemies.isEmpty()){
-                    System.out.println("Couscous");
                     Game.context.status = Status.REWARDS_TIME;
                 }else {
                     Random random = new Random();

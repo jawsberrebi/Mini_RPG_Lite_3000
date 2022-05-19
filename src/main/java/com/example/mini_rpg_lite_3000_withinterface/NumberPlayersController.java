@@ -21,22 +21,22 @@ public class NumberPlayersController implements Initializable {
 
     @FXML
     protected void handleBtnStart() throws Exception{
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("number-players.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("number-players.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        HelloApplication.stage.setScene(scene);
-        HelloApplication.stage.show();
+        Application.stage.setScene(scene);
+        Application.stage.show();
     }
 
     @FXML
     protected void handleBtnNumberPlayers() throws Exception{
         int numberOfHeroes = spinner.getValue();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("choose-heroes.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("choose-heroes.fxml"));
         root = fxmlLoader.load();
         ChooseHeroesController chooseHeroesController = fxmlLoader.getController();
         chooseHeroesController.setNumberOfHeroes(numberOfHeroes);
         Scene scene = new Scene(root);
-        HelloApplication.stage.setScene(scene);
-        HelloApplication.stage.show();
+        Application.stage.setScene(scene);
+        Application.stage.show();
     }
 
     @Override

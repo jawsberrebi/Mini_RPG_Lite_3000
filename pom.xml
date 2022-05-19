@@ -61,7 +61,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                com.example.mini_rpg_lite_3000_withinterface/com.example.mini_rpg_lite_3000_withinterface.HelloApplication
+                                com.example.mini_rpg_lite_3000_withinterface/com.example.mini_rpg_lite_3000_withinterface.Application
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
