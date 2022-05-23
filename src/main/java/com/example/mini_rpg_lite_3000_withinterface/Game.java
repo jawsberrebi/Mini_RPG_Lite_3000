@@ -8,18 +8,18 @@ import java.util.Random;
 
 public class Game {
 
-    public static Game context;
-    private static List<Hero> heroes = new ArrayList<Hero>();
-    private List<Enemy> enemies = new ArrayList<Enemy>();
+    public static Game context;                                                                                         //Contexte du jeu, qui évoluera en fonction du déroulement du jeu
+    private static List<Hero> heroes = new ArrayList<Hero>();                                                              //Liste des héros
+    private List<Enemy> enemies = new ArrayList<Enemy>();                                                                   //Liste des ennemis
     private int playerTurn;
-    public com.example.mini_rpg_lite_3000_withinterface.utils.InputParser InputParser;
-    private int lifePointBasicEnemy;
-    private int lifePointBoss;
-    private static int combatNumber;
-    private static int armorRewardPoints;
-    protected static int currentPositionHero;
-    protected static int currentPositionEnemy;
-    private static int damagesRewardPoints;
+    public com.example.mini_rpg_lite_3000_withinterface.utils.InputParser InputParser;                                  //Parser pour la console
+    private int lifePointBasicEnemy;                                                                                    //Points de vie de l'ennemi basique qui augmentera au fil des combats
+    private int lifePointBoss;                                                                                          //Points de vie du boss qui augmentera au fil des combats
+    private static int combatNumber;                                                                                    //Numéro du combat
+    private static int armorRewardPoints;                                                                               //Nombre de points d'armure ajoutés dans le cas d'une récompense après une victoire (augmente à chaque victoire)
+    protected static int currentPositionHero;                                                                           //Position du héros actif (actuel, qui peut agir) dans la liste
+    protected static int currentPositionEnemy;                                                                          //Position de l'ennemi actif (actuel, qui peut attaquer) dans la liste
+    private static int damagesRewardPoints;                                                                             //Nombre de points de dégât ajoutés dans le cas d'une récompense après une victoire (augmente à chaque victoire)
     private static int consumablesRewardPoints;
     private static int consumablesRewardQuantity;
     private static int enhanceBonusPoints;
@@ -39,6 +39,10 @@ public class Game {
 
     public List<Enemy> getEnemies() {
         return enemies;
+    }
+
+    public void setEnemies(List<Enemy> enemies) {
+        this.enemies = enemies;
     }
 
     public static int getCurrentPositionHero() {
@@ -209,21 +213,11 @@ public class Game {
     }
 
     public static void enhanceArmor(int cursorHero){
-        /*
-        for (int i = 0; i < Game.context.getHeroes().size(); i++){
-            Game.context.getHeroes().get(i).setArmor(Game.context.getHeroes().get(i).getArmor() + Game.context.armorRewardPoints);
-        }
-         */
         Game.context.getHeroes().get(cursorHero).setArmor(Game.context.getHeroes().get(cursorHero).getArmor() + Game.context.armorRewardPoints);
         Game.context.armorRewardPoints += 2;
     }
 
     public static void enhanceDamages(int cursorHero){
-        /*
-        for (int i = 0; i < Game.context.getHeroes().size(); i++){
-            Game.context.getHeroes().get(i).setWeaponDamage(Game.context.getHeroes().get(i).getWeaponDamage() + Game.context.damagesRewardPoints);
-        }
-         */
         Game.context.getHeroes().get(cursorHero).setWeaponDamage(Game.context.getHeroes().get(cursorHero).getWeaponDamage() + Game.context.damagesRewardPoints);
         Game.context.damagesRewardPoints += 3;
     }

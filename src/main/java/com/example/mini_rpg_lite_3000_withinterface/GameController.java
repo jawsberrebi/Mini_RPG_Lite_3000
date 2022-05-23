@@ -13,72 +13,71 @@ import java.util.Random;
 
 public class GameController {
 
+    private int combatNumber;                                                                                                   //Numéro du combat
     @FXML
-    private int combatNumber;
+    private Label combatNumberString;                                                                                           //Affichage du numéro du combat
     @FXML
-    private Label combatNumberString;
+    private Label currentHero;                                                                                                  //Affichage du type du héros actuel en train de combattre
     @FXML
-    private Label currentHero;
+    private Label heroData;                                                                                                     //Affichage des informations sur le héros actuel train de combattre
     @FXML
-    private Label heroData;
+    private Label currentEnemy;                                                                                                 //Affichage du type de l'ennemi actuel en train de combattre
     @FXML
-    private Label currentEnemy;
+    private Label enemyData;                                                                                                    //Affichage des informations sur l'ennemi actuel train de combattre
     @FXML
-    private Label enemyData;
+    private Label whatToDo;                                                                                                     //Texte qui indique la plupart du temps ce que l'utilisateur peut faire
     @FXML
-    private Label whatToDo;
+    private Button gameBtn;                                                                                                     //Bouton principal pour avancer dans le déroulement du jeu
     @FXML
-    private Button gameBtn;
+    private Button attackBtn;                                                                                                   //Bouton pour faire attaquer le héros
     @FXML
-    private Button attackBtn;
+    private Button defendBtn;                                                                                                   //Bouton pour défendre le héros (mettre son armure)
     @FXML
-    private Button defendBtn;
+    private Button useConsumableBtn;                                                                                            //Bouton pour utiliser des consommables (afficher la nourriture disponible et donner le choix entre la nourriture et les sorts pour le mage ou le healer)
     @FXML
-    private Button useConsumableBtn;
+    private Label actualState;                                                                                                  //Texte pour afficher l'état actuel du jeu, les actions qui se passent la plupart du temps
     @FXML
-    private Label actualState;
+    private ListView<String> heroesToHeal = new ListView<>();                                                                   //Liste d'affichage pour choisir un héros à guérir (pour l'attaque du healer)
     @FXML
-    private ListView<String> heroesToHeal = new ListView<>();
+    private Button healBtn;                                                                                                     //Bouton pour guérir un héros (dans le cas du healer)
     @FXML
-    private Button healBtn;
+    private ImageView armorImg;                                                                                                 //Image signalant que l'armure a été mise (l'image s'affiche quand l'amure a été mise par le héros)
     @FXML
-    private ImageView armorImg;
+    private Button foodBtn;                                                                                                     //Bouton pour que le héros consomme de la nourriture après le choix du consommable
     @FXML
-    private Button foodBtn;
+    private Button potionBtn;                                                                                                   //Bouton pour que le mage ou le healer boive une potion après le choix du consommable
     @FXML
-    private Button potionBtn;
+    private ListView consumables;                                                                                               //Liste d'affiche pour les consommables
     @FXML
-    private ListView consumables;
+    private Button consumeBtn;                                                                                                  //Bouton pour consommer un consommable
     @FXML
-    private Button consumeBtn;
+    private Button enhanceArmorBtn;                                                                                             //Bouton pour augmenter les points d'armure après une victoire
     @FXML
-    private Button enhanceArmorBtn;
+    private Button enhanceDamagesBtn;                                                                                           //Bouton pour augmenter les points de dégât après une victoire
     @FXML
-    private Button enhanceDamagesBtn;
+    private Button enhanceConsumablesBtn;                                                                                       //Bouton pour augmenter les points que confèrent les consommables après une victoire
     @FXML
-    private Button enhanceConsumablesBtn;
+    private Button enhanceQuantityConsumablesBtn;                                                                               //Bouton pour augmenter le nombre de consommables (nourriture ou potion) après une victoire
     @FXML
-    private Button enhanceQuantityConsumablesBtn;
+    private Button enhanceQuantityFoodBtn;                                                                                      //Bouton pour augmenter la quantité de nourriture après une victoire
     @FXML
-    private Button enhanceQuantityFoodBtn;
+    private Button enhanceQuantityPotionBtn;                                                                                    //Bouton pour augmenter la quantité de potions (dans le cas du mage et du healer) après une victoire
     @FXML
-    private Button enhanceQuantityPotionBtn;
+    private Button enhanceHeroBtn;                                                                                              //Bouton pour améliorer le héros (augmenter les flèches pour le hunter, réduire ou augmenter l'efficacité des sorts pour le healer ou le mage)
     @FXML
-    private Button enhanceHeroBtn;
+    private Button enhanceSpellBtn;                                                                                             //Bouton pour améliorer l'efficacité du sort (pour le healer ou le mage)
     @FXML
-    private Button enhanceSpellBtn;
-    @FXML
-    private Button reduceManaCostBtn;
+    private Button reduceManaCostBtn;                                                                                           //Bouton pour réduire le coût du sort en mana (pour le healer ou le mage)
 
-    private boolean resultAttackHero;
+    private boolean resultAttackHero;                                                                                           //Résultat de l'attaque du héros : si l'ennemi est mort à l'issu du combat, cet attribut vaudra "true", si l'ennemi n'est pas mort, cet attribut vaudra "false"
 
-    private boolean attackResultEnemy;
+    private boolean attackResultEnemy;                                                                                          //Résultat de l'attaque de l'ennemi : si le héros est mort à l'issu du combat, cet attribut vaudra "true", si le héros n'est pas mort, cet attribut vaudra "false"
 
-    private int indexHeroToHeal;
+    private int indexHeroToHeal;                                                                                                //Index (curseur) du choix du joueur la liste d'affichage des héros à guérir (dans le cas de l'attaque du healer)
 
-    private int indexConsumables;
+    private int indexConsumables;                                                                                               //Index (curseur) du choix du joueur la liste d'affichage des consommables
 
-    private int cursorHeroReward;
+    private int cursorHeroReward;                                                                                               //Index (curseur) sur la liste du groupe de héros à récompenser (enchaînement de récompense automatique de héros en héros en fin de combat)
 
     //Initialisation du jeu, on lance la méthode "play" dans Game pour intialiser le groupe de héros et des ennemis, selon les choix du joueur
     @FXML
@@ -99,14 +98,12 @@ public class GameController {
         this.whatToDo.setText("Que faire ?");
         hideActions();
         hideActionsAfterVictory();
-        System.out.println(Application.getNumberOfHeroes());
-        Game.createHeroGroup(Application.getNumberOfHeroes(), Application.getSelectedHeroes());
-        Game.playGame();
+        Game.createHeroGroup(Application.getNumberOfHeroes(), Application.getSelectedHeroes());                                      //Création du groupe de héros à partir du choix fait précédemment
+        Game.playGame();                                                                                                             //Initialisation du jeu
         this.combatNumber = 0;
         this.combatNumberString.setText(Integer.toString(this.combatNumber));
         refreshListHeroesToHeal();
         this.heroesToHeal.setVisible(false);
-        System.out.println(combatNumber);
     }
 
     @FXML
@@ -458,7 +455,7 @@ public class GameController {
         this.gameBtn.setVisible(true);
     }
 
-    //Ideme pour le cas des potions : on augmente le nombre de points de mana que confèrent les potions
+    //Idem pour le cas des potions : on augmente le nombre de points de mana que confèrent les potions
     @FXML
     public void handleBtnEnhanceQuantityPotions(){
         hideActionsAfterVictory();
@@ -469,33 +466,36 @@ public class GameController {
         this.gameBtn.setVisible(true);
     }
 
+    //Méthode améliorant les héros : augmenter des flèches pour le hunter ou améliorer/réduire le coût des sorts pour le mage ou le healer
     @FXML
     public void handleBtnEnhanceHero(){
         hideActionsAfterVictory();
 
-        if (Game.context.getHeroes().get(this.cursorHeroReward) instanceof SpellCaster){
-            this.enhanceSpellBtn.setVisible(true);
+        if (Game.context.getHeroes().get(this.cursorHeroReward) instanceof SpellCaster){                                        // S'il s'agit d'un mage ou d'un healer
+            this.enhanceSpellBtn.setVisible(true);                                                                              // On fait apparaître les 2 choix (améliorer les sorts ou réduire le coût en mana)
             this.reduceManaCostBtn.setVisible(true);
         }else {
-            Game.context.enhanceHero(this.cursorHeroReward);
-            this.cursorHeroReward++;
-            Game.context.status = Game.Status.REWARDS_TIME;
+            Game.context.enhanceHero(this.cursorHeroReward);                                                                    // Sinon (on appliquera cela au hunter) on augmente son nombre de flèches
+            this.cursorHeroReward++;                                                                                            // Après chaque récompense attribuée à un personnage, le curseur parcourant la liste des héros se déplace au héros suivant à récompenser
+            Game.context.status = Game.Status.REWARDS_TIME;                                                                     // On est toujours dans le moment d'attribution de récompenses
             this.gameBtn.setText("Continuer le jeu");
             this.gameBtn.setVisible(true);
         }
         this.enhanceHeroBtn.setVisible(false);
     }
 
+    //Méthode pour améliorer l'efficacité des sorts du healer ou du mage
     public void handleBtnEnhanceSpell(){
         this.enhanceSpellBtn.setVisible(false);
         this.reduceManaCostBtn.setVisible(false);
-        Game.context.enhanceHero(this.cursorHeroReward);
-        this.cursorHeroReward++;
-        Game.context.status = Game.Status.REWARDS_TIME;
+        Game.context.enhanceHero(this.cursorHeroReward);                                                                        // Amélioration du sort
+        this.cursorHeroReward++;                                                                                                // Après chaque récompense attribuée à un personnage, le curseur parcourant la liste des héros se déplace au héros suivant à récompenser
+        Game.context.status = Game.Status.REWARDS_TIME;                                                                         // On est toujours dans le moment d'attribution de récompenses
         this.gameBtn.setText("Continuer le jeu");
         this.gameBtn.setVisible(true);
     }
 
+    //Idem, mais pour réduire les coûts des sorts en mana des sorts du healer ou du mage
     public void handleBtnReduceManaCost(){
         this.enhanceSpellBtn.setVisible(false);
         this.reduceManaCostBtn.setVisible(false);

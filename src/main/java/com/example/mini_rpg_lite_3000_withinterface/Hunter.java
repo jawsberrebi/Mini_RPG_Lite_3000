@@ -31,7 +31,6 @@ public class Hunter extends Hero{
     //Méthodes
     @Override
     public void attack(Enemy enemy, Hero hero) {
-        this.isArmorOn = false;
         if ((this.arrows > 0) && (this.lifePoints > 0)){
             this.arrows--;
             enemy.losingLife(this.weaponDamage);
