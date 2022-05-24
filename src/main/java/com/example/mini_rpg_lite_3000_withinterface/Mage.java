@@ -1,8 +1,8 @@
 package com.example.mini_rpg_lite_3000_withinterface;
 
-public class Mage extends SpellCaster{
+public class Mage extends SpellCaster{                                                                                  //La classe mage hérite de la classe magicien
 
-    public Mage(){
+    public Mage(){                                                                                                      //Pour construire un mage, on réutilise le code de la classe mère supérieure et on y spécifie des paramètres de base
         super();
         this.lifePoints = 5;
         this.armor = 5;
@@ -12,7 +12,7 @@ public class Mage extends SpellCaster{
         this.isArmorOn = false;
     }
 
-    public Mage(int lP, int a, int wP, int mP , int cMP){
+    public Mage(int lP, int a, int wP, int mP , int cMP){                                                               //Constructeur utilisé si on souhait construire un mahe avec des paramètres spécifiques
         super();
         this.lifePoints = lP;
         this.armor = a;
@@ -22,8 +22,9 @@ public class Mage extends SpellCaster{
         this.isArmorOn = false;
     }
 
+    //Méthode d'attaque du mage
     @Override
-    public void attack(Enemy enemy, Hero hero) {
+    public void attack(Enemy enemy, Hero hero) {                                                                        //Attaque du mage : il lance un sort contre l'ennemi
         spelling(enemy, null);
     }
 
@@ -37,7 +38,6 @@ public class Mage extends SpellCaster{
             }
         }else {
             this.manaPoints = 0;
-            System.out.println("Vous n'assez pas assez de mana !");
         }
     }
 
@@ -46,7 +46,6 @@ public class Mage extends SpellCaster{
         super.losingLife(attack);
         if (this.lifePoints <= 0){
             this.lifePoints = 0;
-            System.out.println("Le Mage est mort !");
         }
     }
 

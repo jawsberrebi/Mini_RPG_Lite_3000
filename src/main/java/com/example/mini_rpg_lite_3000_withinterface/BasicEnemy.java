@@ -2,7 +2,7 @@ package com.example.mini_rpg_lite_3000_withinterface;
 
 public class BasicEnemy extends Enemy{
 
-    public BasicEnemy(int lP){                                                                                          //Constructeur d'un ennemi basique : on y spécifié ses points de vie
+    public BasicEnemy(int lP){                                                                                          //Constructeur d'un ennemi basique : on y spécifie ses points de vie
         this.lifePoints = lP;
     }
 
