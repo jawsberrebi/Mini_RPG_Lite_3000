@@ -46,8 +46,10 @@ public class HeroTest {
         assertTrue(healer.isDead());
     }
 
+
+    //Tests annexe
     @Test
-    // Test de la mort
+    // Test de la mort des héros
     public void testMort(){
         Hero hunter = new Hunter();
         Hero warrior = new Warrior();
@@ -87,7 +89,7 @@ public class HeroTest {
     }
 
     @Test
-    //Test
+    //Test des PV héros
     public void testPV(){
         // Test PV ennemi basique
         Hunter hero = new Hunter(10, 5, 3, 10);

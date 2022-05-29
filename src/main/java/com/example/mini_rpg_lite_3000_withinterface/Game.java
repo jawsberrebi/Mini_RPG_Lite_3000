@@ -10,7 +10,7 @@ public class Game {
 
     public static Game context;                                                                                         //Contexte du jeu, qui évoluera en fonction du déroulement du jeu
     private static List<Hero> heroes = new ArrayList<Hero>();                                                           //Liste des héros
-    private List<Enemy> enemies = new ArrayList<Enemy>();                                                               //Liste des ennemis
+    private List<Enemy> enemies = new ArrayList<Enemy>();                                                                   //Liste des ennemis
     private int playerTurn;
     public com.example.mini_rpg_lite_3000_withinterface.utils.InputParser InputParser;                                  //Parser pour la console
     private int lifePointBasicEnemy;                                                                                    //Points de vie de l'ennemi basique qui augmentera au fil des combats
