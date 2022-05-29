@@ -101,7 +101,6 @@ public class Game {
 
         //Probabilité d'obtenir un boss dans un groupe : on a une chance sur trois de tomber sur un boss
         if (chanceOfBoss == 3){
-            System.out.println(this.enemies.size());
             if (this.enemies.size() < 3){
                 this.enemies.set(this.enemies.size() -1, new Boss(this.lifePointBoss));
             }else{
