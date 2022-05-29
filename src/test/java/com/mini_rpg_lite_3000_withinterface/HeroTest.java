@@ -2,6 +2,10 @@ package com.mini_rpg_lite_3000_withinterface;
 
 import com.example.mini_rpg_lite_3000_withinterface.*;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class HeroTest {
@@ -65,8 +69,7 @@ public class HeroTest {
         basicEnemy.attack(hunter);
         basicEnemy.attack(hunter);
         boss.attack(warrior);
-        hunter.displayData();
-        warrior.displayData();
+        boss.attack(warrior);
         assertTrue(hunter.getLifePoints() == 0);
         assertTrue(warrior.getLifePoints() == 0);
         assertTrue(hunter.isDead());
@@ -77,11 +80,14 @@ public class HeroTest {
     //Test consommable
     public void testConsumable(){
         // FOOD
-        Hero warrior = new Healer();
+        Hero warrior = new Warrior();
         warrior.displayData();
         int lifePointsBefore = warrior.getLifePoints();
         Food food = new Food("Chocolate", 3);
+        List<Food> foods = new ArrayList<>();
+        foods.add(food);
         int indexFood = 0;
+        warrior.setLembdas(foods);
         warrior.useConsumable(0, true);
         warrior.displayData();
         assertTrue(warrior.getLifePoints() == food.giveBonus() + lifePointsBefore);
@@ -92,7 +98,7 @@ public class HeroTest {
     //Test des PV héros
     public void testPV(){
         // Test PV ennemi basique
-        Hunter hero = new Hunter(10, 5, 3, 10);
+        Hunter hero = new Hunter(3, 5, 3, 10);
         BasicEnemy basicEnemy = new BasicEnemy(5);
         Boss boss = new Boss(100);
         hero.attack(basicEnemy, null);

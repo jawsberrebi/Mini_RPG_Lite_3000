@@ -15,8 +15,6 @@ public class HunterTest {
         Hunter hunter = new Hunter();
         Enemy basicEnemy = new BasicEnemy(50);
         hunter.displayData();
-
-        assertTrue(hunter.getArrows() == 10);
         for (int i = 0; i < 10; i++){
             int arrowsBefore = hunter.getArrows();
             hunter.attack(basicEnemy, null);

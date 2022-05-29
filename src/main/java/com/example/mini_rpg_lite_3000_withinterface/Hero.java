@@ -49,6 +49,9 @@ public abstract class Hero {
     public List<Food> getLembdas() {
         return this.lembdas;
     }
+    public void setLembdas(List<Food> lembdas) {
+        this.lembdas = lembdas;
+    }
     public List<Potion> getPotions() {
         return this.potions;
     }
